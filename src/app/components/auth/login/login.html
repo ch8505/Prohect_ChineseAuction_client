@@ -1,0 +1,27 @@
+<div class="login-container">
+  <h2>כניסה למערכת</h2>
+  
+  <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+    
+    <div>
+      <label>אימייל:</label>
+      <input 
+        type="email" 
+        name="email" 
+        [(ngModel)]="credentials.email" 
+        required 
+        email>
+    </div>
+
+    <div>
+      <label>סיסמה:</label>
+      <input 
+        type="password" 
+        name="password" 
+        [(ngModel)]="credentials.password" 
+        required>
+    </div>
+
+    <button type="submit" [disabled]="!loginForm.valid">התחבר</button>
+  </form>
+</div>

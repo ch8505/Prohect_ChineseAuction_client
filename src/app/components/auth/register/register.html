@@ -1,0 +1,15 @@
+<div class="register-container">
+  <h2>הרשמה</h2>
+  <form #regForm="ngForm" (ngSubmit)="onRegister()">
+    
+    <input type="text" name="name" [(ngModel)]="user.name" placeholder="שם מלא" required>
+    
+    <input type="email" name="email" [(ngModel)]="user.email" placeholder="אימייל" required email>
+    
+    <input type="text" name="phone" [(ngModel)]="user.phone" placeholder="טלפון">
+    
+    <input type="password" name="password" [(ngModel)]="user.password" placeholder="סיסמה" required>
+
+    <button type="submit" [disabled]="!regForm.valid">הירשם</button>
+  </form>
+</div>
