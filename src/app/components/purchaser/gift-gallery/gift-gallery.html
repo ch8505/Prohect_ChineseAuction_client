@@ -1,40 +1,52 @@
-<p>gift-gallery works!</p>
-<!-- 
-<div>
-    <input type="text" #newName placeholder="שם המתנה החדשה" />
-    <button (click)="add(newName.value); newName.value=''">הוסף מתנה</button>
-</div> -->
+<div class="flex justify-content-end mb-3">
+    <p-button label="הוספת מתנה חדשה" icon="pi pi-plus" (click)="onAdd()"></p-button>
+</div>
 
-<hr />
 
-<table class="table-bordered" border="1">
-    <thead>
+
+
+<p-table [value]="listOfGifts" class="p-datatable-striped">
+    <ng-template pTemplate="header">
         <tr>
-            <th> קוד מתנה </th>
-            <th> שם מתנה </th>
-            <th> מחיר כרטיס </th>
-            <th> פעולות </th>
+            <th>קוד</th>
+            <th>שם</th>
+            <th>מחיר</th>
+            <th>קטגוריה</th>
+            <th>תמונה</th>
+            <th>תורם</th>
+            <th>מחיקה</th>
+            <th>עריכה</th>
+
         </tr>
-    </thead>
-    <tbody>
-        @for(b of listOfGifts; track b.id) {
+    </ng-template>
+    <ng-template pTemplate="body" let-gift>
         <tr>
-            <td>{{ b.id }}</td>
+            <td>{{gift.id}}</td>
+            <td>{{gift.name}}</td>
+            <td>{{gift.ticketPrice}} ₪</td>
+            <td>{{gift.categoryName}}</td>
+            <td><img [src]="gift.imageUrl" width="50" height="50" /></td>
+            <td>{{gift.donorName}}</td>
             <td>
-                <input type="text" [(ngModel)]="b.name" />
+                <p-button icon="pi pi-pencil" [text]="true" (click)="onEdit(gift)">ערוך</p-button>
             </td>
             <td>
-                <input type="number" [(ngModel)]="b.ticketPrice" />
+                <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="delete(gift.id)">מחק</p-button>
             </td>
-            <td>
-                <button (click)="save(b)">שמור</button>
-                <button (click)="delete(b.id)">מחק</button>
-            </td>
+
         </tr>
-        } @empty {
-        <tr>
-            <td colspan="4">אין מתנות להצגה</td>
-        </tr>
-        }
-    </tbody>
-</table>
+    </ng-template>
+</p-table>
+
+
+
+@if(displayDialog) {
+<p-dialog [header]="selectedGift ? 'עריכת מתנה' : 'הוספת מתנה חדשה'" [(visible)]="displayDialog" [style]="{width: '50vw'}">
+    <app-gift-form 
+        [giftToEdit]="selectedGift" 
+        [categories]="categories"
+        (save)="onSaveGift($event)"
+        (cancel)="closeDialog()">
+    </app-gift-form>
+</p-dialog>
+}

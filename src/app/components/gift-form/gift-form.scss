@@ -1,0 +1,59 @@
+.gift-form-container {
+    padding: 1rem 0;
+    
+    // מוודא שכל האינפוטים תופסים את כל הרוחב
+    input, .p-inputnumber, .p-select, .p-inputtext {
+        width: 100%;
+    }
+
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; // רווח גדול בין השורות
+    }
+
+    .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem; // רווח בין הלייבל לאינפוט
+
+        label {
+            font-weight: 600;
+            color: #ececec; // צבע בהיר לטקסט
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: #ff4d4d;
+        }
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+        
+        .half-width {
+            flex: 1; // שכל אחד יתפוס חצי רוחב
+        }
+    }
+
+    .error-msg {
+        color: #ff4d4d;
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+    }
+
+    .ltr-input {
+        direction: ltr; // לכתובות URL באנגלית
+        text-align: left;
+    }
+
+    .form-actions {
+        margin-top: 2.5rem;
+        display: flex;
+        justify-content: flex-end; // מצמיד כפתורים לצד שמאל (בעברית)
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #333;
+    }
+}

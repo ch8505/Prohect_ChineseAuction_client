@@ -14,3 +14,13 @@ export interface User {
     role: Role;
     orders: Order[];
 }
+
+export interface LoginResponse {
+  token: string;      // ה-JSON בדרך כלל הופך לאותיות קטנות בצד לקוח
+  tokenType: string;
+  user: {
+    name: string;
+    email: string;
+    role: string;
+  };
+}

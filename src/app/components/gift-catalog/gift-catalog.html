@@ -1,0 +1,40 @@
+<div class="catalog-container">
+    <h1 class="catalog-title">קטלוג מתנות <span class="highlight">2026</span></h1>
+
+    <div class="search-bar-container">
+        <span class="p-input-icon-left w-full max-w-md">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText placeholder="חפש מתנה או קטגוריה..." 
+                   [ngModel]="searchTerm()" 
+                   (ngModelChange)="searchTerm.set($event)" 
+                   class="search-input" />
+        </span>
+    </div>
+
+    <div class="gift-grid">
+        @for (gift of filteredGifts(); track gift.id) {
+        <p-card [header]="gift.name" [subheader]="gift.categoryName" class="gift-card">
+            <ng-template pTemplate="header">
+                <div class="image-wrapper">
+                    <img [alt]="gift.name" [src]="gift.imageUrl || 'assets/default-gift.jpg'" />
+                    <p-tag [value]="gift.ticketPrice + ' ₪'" severity="success" class="price-tag"></p-tag>
+                </div>
+            </ng-template>
+
+            <p class="donor-name">תרומת: {{gift.donorName}}</p>
+
+            <ng-template pTemplate="footer">
+                <div class="flex gap-3 mt-1">
+                    <p-button label="הוסף לסל" icon="pi pi-shopping-cart" class="w-full"
+                        (click)="addToCart(gift)"></p-button>
+                </div>
+            </ng-template>
+        </p-card>
+        } @empty {
+        <div class="no-results">
+            <i class="pi pi-search-minus"></i>
+            <p>לא מצאנו מתנות שתואמות לחיפוש של "{{searchTerm()}}"</p>
+        </div>
+        }
+    </div>
+</div>

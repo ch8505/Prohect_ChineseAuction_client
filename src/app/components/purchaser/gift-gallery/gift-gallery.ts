@@ -1,58 +1,104 @@
+
+
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Gift } from '../../../models/gift';
+import { Category, Gift, GiftUpsert } from '../../../models/gift';
 import { GiftService } from '../../../services/gift-service';
+import { GiftFormComponent } from '../../gift-form/gift-form';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+
+
 
 @Component({
   selector: 'app-gift-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule],
   templateUrl: './gift-gallery.html',
   styleUrl: './gift-gallery.scss',
 })
 export class GiftGallery implements OnInit {
-  private giftService = inject(GiftService);
 
-  listOfGifts: Gift[] = [];
+
+  categories: Category[] = []; // משתנה לשמירת הקטגוריות
 
   ngOnInit() {
     this.loadGifts();
+    this.loadCategories(); // <--- קריאה חדשה
   }
+  private giftService = inject(GiftService);
+  listOfGifts: Gift[] = [];
+  selectedGift: Gift | null = null;
+  displayDialog: boolean = false;
 
-  // פונקציית עזר לטעינת הרשימה
+//get all categories
+  loadCategories() {
+    this.giftService.getCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+        console.log('קטגוריות נטענו:', data); // לבדיקה שהנתונים הגיעו
+      },
+      error: (err) => console.error('לא הצליח לטעון קטגוריות', err)
+    });
+  }
+//get all gifts
   loadGifts() {
     this.giftService.getAll().subscribe({
-      next: (data) => (this.listOfGifts = data),
-      error: (err) => console.error('Failed to load gifts', err)
+      next: data => {
+        this.listOfGifts = data;
+        console.log('מתנות נטענו:', data); // לבדיקה שהנתונים הגיעו
+      },
+      error: err => console.error('Failed to load gifts', err)
     });
   }
-
-  // הוספת מתנה
-  // add(name: string | undefined) {
-  //   if (name) {
-  //     const newGift: Gift = { id: 0, name: name , ticketPrice: 0, imageUrl: '' }; // ה-ID לרוב נוצר ב-DB
-  //     this.giftService.add(newGift).subscribe(() => {
-  //       this.loadGifts(); // רענון הרשימה לאחר ההוספה
-  //     });
-  //   }
-  // }
-
-  // שמירת עדכון
-  save(item: Gift) {
-    this.giftService.update(item).subscribe(() => {
-      console.log('Gift updated successfully');
-      this.loadGifts();
-    });
+  onAdd() {
+    this.selectedGift = null; // מאפסים את המתנה כדי שהטופס ייפתח ריק
+    this.displayDialog = true;
+}
+// open dialog to edit gift
+  onEdit(gift: Gift) {
+    this.selectedGift = gift;
+    this.displayDialog = true;
   }
 
-  // מחיקה
+// עדכון פונקציית השמירה
+onSaveGift(giftData: GiftUpsert) {
+    if (this.selectedGift) {
+        // עדכון מתנה קיימת
+        this.giftService.update(this.selectedGift.id, giftData).subscribe({
+            next: () => this.handleSuccess(),
+            error: (err) => console.error('שגיאה בעדכון', err)
+        });
+    } else {
+        // הוספת מתנה חדשה - שימוש ב-BASE_URL בשרת שלך
+
+        // this.giftService.add(giftData).subscribe({
+        //     next: () => this.handleSuccess(),
+        //     error: (err) => console.error('שגיאה בהוספה', err)
+        // });
+    }
+}
+private handleSuccess() {
+    this.loadGifts();
+    this.closeDialog();
+}
+
+closeDialog() {
+    this.displayDialog = false;
+    this.selectedGift = null;
+}
+//delete gift
   delete(id: number) {
     if (confirm('האם אתה בטוח שברצונך למחוק?')) {
       this.giftService.delete(id).subscribe(() => {
-        // עדכון הרשימה המקומית ללא צורך בקריאת שרת נוספת (לביצועים טובים יותר)
         this.listOfGifts = this.listOfGifts.filter(g => g.id !== id);
       });
     }
   }
 }
+
+
+
+

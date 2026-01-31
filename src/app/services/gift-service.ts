@@ -1,32 +1,58 @@
+// 
+
+
+
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Gift } from '../models/gift';
+import { Category, Gift, GiftUpsert } from '../models/gift';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GiftService {
+
   private readonly BASE_URL = 'https://localhost:7006/api/Gift';
+
   private http = inject(HttpClient);
 
-  // שליפת כל המתנות
-  getAll(): Observable<Gift[]> {
-    return this.http.get<Gift[]>(this.BASE_URL);
+  /** ===================== CRUD ===================== */
+//  שליפת כל המתנות עבור מנהל
+getAll(): Observable<Gift[]> {
+    return this.http.get<Gift[]>(`${this.BASE_URL}/admin`); 
   }
 
-  // הוספת מתנה חדשה
-  add(gift: Gift): Observable<Gift> {
-    return this.http.post<Gift>(this.BASE_URL, gift);
+  // שליפת כל המתנות עבור קטלןג מתנות
+  getAllForCatalog(): Observable<Gift[]> {
+    return this.http.get<Gift[]>(`${this.BASE_URL}`); 
   }
 
-  // עדכון מתנה קיימת
-  update(gift: Gift): Observable<Gift> {
-    return this.http.put<Gift>(`${this.BASE_URL}/${gift.id}`, gift);
+
+  //  שליפת מתנה בודדת לפי ID
+  getById(id: number): Observable<Gift> {
+    return this.http.get<Gift>(`${this.BASE_URL}/${id}`);
+  }
+  // !!!רצינו להעביר לתורמים
+  //  הוספת מתנה חדשה
+  // add(gift: GiftUpsert): Observable<Gift> {
+  //   return this.http.post<Gift>(`${this.BASE_URL}/admin/add-to-donor/${gift.donorId}`, gift);
+  // }
+
+  //  עדכון מתנה קיימת
+  update(id: number, gift: GiftUpsert): Observable<Gift> {
+    console.log('שולח עדכון לשרת עבור ID:', id, gift);
+    return this.http.put<Gift>(`${this.BASE_URL}/${id}`, gift);
   }
 
-  // מחיקת מתנה לפי ID
+  //  מחיקת מתנה לפי ID
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.BASE_URL}/${id}`);
   }
+  /** ===================== תוספות של קריאות ===================== */
+  //get all catergories
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`https://localhost:7006/api/Category`);
+  }
 }
+

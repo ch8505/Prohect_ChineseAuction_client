@@ -13,7 +13,6 @@ import { AuthService } from '../../../services/auth-service';
   styleUrls: ['./register.scss']
 })
 export class RegisterComponent {
-  // האובייקט שיתמלא מה-HTML
   user = {
     name: '',
     email: '',

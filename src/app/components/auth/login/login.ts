@@ -7,32 +7,26 @@ import { AuthService } from '../../../services/auth-service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
 export class LoginComponent {
   credentials = { email: '', password: '' };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   onLogin() {
-  this.authService.login(this.credentials).subscribe({
-    next: (response) => {
-      console.log('תשובת השרת:', response); // נראה מה קיבלנו
-      alert('מחובר!');
-      this.router.navigate(['/gifts']);
-    },
-    error: (err) => {
-      // הדפסת השגיאה המלאה לקונסול (F12)
-      console.error('השגיאה המלאה:', err);
-      
-      if (err.status === 200) {
-        alert('השרת החזיר תשובה תקינה (200), אבל אנגולר נכשל בקריאתה (Parsing Error)');
-      } else {
-        alert('שגיאה במספר: ' + err.status);
+    // ודאי שהשדות תואמים ל-LoginRequestDto בשרת
+    this.authService.login(this.credentials).subscribe({
+      next: (response) => {
+        console.log('התחברות הצליחה, התקבל טוקן:', response.token);
+        this.router.navigate(['/gallery']);
+      },
+      error: (err) => {
+        console.error('פרטי שגיאת 401:', err.error); 
+        alert('התחברות נכשלה: ' + (err.error?.message || 'בדוק את המייל והסיסמה'));
       }
-    }
-  });
-}
+    });
+  }
 }
