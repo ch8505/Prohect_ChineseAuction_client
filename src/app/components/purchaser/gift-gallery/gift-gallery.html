@@ -28,10 +28,10 @@
             <td><img [src]="gift.imageUrl" width="50" height="50" /></td>
             <td>{{gift.donorName}}</td>
             <td>
-                <p-button icon="pi pi-pencil" [text]="true" (click)="onEdit(gift)">ערוך</p-button>
+                <p-button icon="pi pi-pencil" [text]="true" (click)="onEdit(gift)"></p-button>
             </td>
             <td>
-                <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="delete(gift.id)">מחק</p-button>
+                <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="delete(gift.id)"></p-button>
             </td>
 
         </tr>

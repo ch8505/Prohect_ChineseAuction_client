@@ -7,3 +7,11 @@ export interface Donor {
     phone: string;
     gifts: Gift[];
 }
+
+/* ========= GiftUpsert – יצירה / עדכון ========= */
+export interface DonorUpsert {
+  name: string;
+  email: string;
+  description?: string;
+  phone: string;
+}
