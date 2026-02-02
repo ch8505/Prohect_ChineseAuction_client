@@ -17,15 +17,35 @@ export class GiftService {
   private http = inject(HttpClient);
 
   /** ===================== CRUD ===================== */
-//  שליפת כל המתנות עבור מנהל
-getAll(): Observable<Gift[]> {
-    return this.http.get<Gift[]>(`${this.BASE_URL}/admin`); 
-  }
+
+  /** ===================== USER ===================== */
+
+
 
   // שליפת כל המתנות עבור קטלןג מתנות
   getAllForCatalog(): Observable<Gift[]> {
-    return this.http.get<Gift[]>(`${this.BASE_URL}`); 
+    return this.http.get<Gift[]>(`${this.BASE_URL}`);
   }
+
+  //שליפת כל המתנות ממוין לפי מחיר עולה
+  getAllSortedByPriceAsc(asc: boolean): Observable<Gift[]> {
+    return this.http.get<Gift[]>(`${this.BASE_URL}/sort-by-price?asc=${asc}`);
+  }
+
+  //שליפת כל המתנות ממוין לפי קטגוריה
+  sortByCategory(): Observable<Gift[]> {
+    return this.http.get<Gift[]>(`${this.BASE_URL}/sort-by-category`);
+  }
+
+
+  /** ===================== ADMINE ===================== */
+
+
+  //  שליפת כל המתנות עבור מנהל
+  getAll(): Observable<Gift[]> {
+    return this.http.get<Gift[]>(`${this.BASE_URL}/admin`);
+  }
+
 
 
   //  שליפת מתנה בודדת לפי ID
