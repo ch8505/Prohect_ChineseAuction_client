@@ -1,0 +1,24 @@
+<p-drawer header="MY CART" [visible]="cartService.isCartVisible()"
+  (visibleChange)="cartService.isCartVisible.set($event)" position="left"
+  [style]="{width: '400px', background: '#0f172a', color: 'white'}">
+
+  <div class="cart-content">
+    @let items = cartService.cartItems()?.orderItems;
+
+    @if (items && items.length > 0) {
+    @for (item of items; track item.giftName) {
+    <div class="cart-item">
+      <span>{{ item.giftName }}</span>
+      <span>x{{ item.quantity }}</span>
+      <span>{{ item.unitPrice }} ₪</span>
+    </div>
+    }
+    <div class="cart-summary">
+      <p>TOTAL: {{ cartService.cartItems()?.totalAmount }} ₪</p>
+      <p-button label="CHECKOUT NOW" (onClick)="checkout()"></p-button>
+    </div>
+    } @else {
+    <div class="empty-state">העגלה ריקה או נטענת...</div>
+    }
+  </div>
+</p-drawer>

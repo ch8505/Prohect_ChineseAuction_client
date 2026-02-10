@@ -1,6 +1,8 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ButtonModule } from 'primeng/button'; 
+import { ButtonModule } from 'primeng/button';
+import { CartService } from '../../../services/cart/cart-service';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-header',
@@ -9,35 +11,19 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header implements OnInit {
+export class Header {
+
   private router = inject(Router);
+  cartService = inject(CartService);
+  authService = inject(AuthService);
 
-  // הגדרת סיגנלים עם ערך ראשוני מה-LocalStorage
-  isLoggedIn = signal<boolean>(false);
-  isAdmin = signal<boolean>(false);
 
-  ngOnInit() {
-    this.updateStatus();
-    
-    // מאזין לשינויים ב-Storage (עוזר אם הלוגין קורה בטאב אחר או דרך סרוויס)
-    window.addEventListener('storage', () => this.updateStatus());
-    
-    // בדיקה תקופתית קצרה לגיבוי (אופציונלי, מבטיח רינדור במידה והלוגין באותו דף)
-    setInterval(() => this.updateStatus(), 500);
-  }
-
-  updateStatus() {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('userRole');
-
-    // עדכון ערכי הסיגנלים
-    this.isLoggedIn.set(!!token);
-    this.isAdmin.set(role === 'Admin');
-  }
+  isLoggedIn = this.authService.isLoggedIn;
+  isAdmin = this.authService.isAdmin;
 
   logout() {
-    localStorage.clear();
-    this.updateStatus(); // מעדכן את הסיגנלים מיד
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
+
 }

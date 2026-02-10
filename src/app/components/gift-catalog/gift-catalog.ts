@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { SelectChangeEvent } from 'primeng/select';
+import { CartService } from '../../services/cart/cart-service';
+import { OrderItemCreateDto } from '../../models/order';
 @Component({
   selector: 'app-gift-catalog',
   imports: [CommonModule, CardModule, ButtonModule, TagModule, FormsModule, InputTextModule, SelectModule],
@@ -19,6 +21,8 @@ export class GiftCatalog {
 
   // 
   private giftService = inject(GiftService);
+  private cartService = inject(CartService);
+
 
 
   gifts = signal<Gift[]>([]);
@@ -75,9 +79,17 @@ export class GiftCatalog {
     });
   }
 
+  // פונקציה להוספת מתנה לעגלה
   addToCart(gift: Gift) {
-    console.log('Adding to cart:', gift);
-    // הוספת לוגיקה להוספה לעגלה כאן
+    this.cartService.addToCart([{ giftId: gift.id, quantity: 1 }]).subscribe({
+      next: () => {
+        console.log('Gift added to cart:', gift);
+      },
+      error: (err) => {
+        console.log('Error adding gift to cart:', gift);
+        console.error('Error adding gift to cart:', err);
+      }
+    });
   }
 
 }

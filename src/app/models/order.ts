@@ -15,3 +15,25 @@ export interface Order {
     user: User;
     orderItems: OrderItem[];
 }
+
+export interface OrderItemCreateDto {
+  giftId: number;
+  quantity: number;
+}
+
+export interface OrderItemResponseDto {
+  giftId?: number; // מומלץ להוסיף ב-API כדי לזהות את הפריט למחיקה
+  giftName: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface OrderResponseDto {
+  id: number; // ודאי שה-API מחזיר ID עבור ה-PUT וה-DELETE
+  userId: number;
+  userName: string;
+  totalAmount: number;
+  status: string;
+  orderDate: Date;
+  orderItems: OrderItemResponseDto[];
+}
