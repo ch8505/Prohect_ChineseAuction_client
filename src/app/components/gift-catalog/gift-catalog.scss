@@ -61,6 +61,24 @@
   .donor-name {
     color: #94a3b8;
     font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-badge {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+
+    .category-tag {
+      background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+      border: none;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: capitalize;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
   }
 }
 

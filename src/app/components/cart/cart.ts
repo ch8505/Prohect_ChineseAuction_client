@@ -29,11 +29,29 @@ export class Cart  {
         }
     }
 
-    checkout() {
-        console.log('Proceeding to checkout with items:', this.cartService.cartItems());
-        // הוספת לוגיקה להמשך לתשלום כאן
-        alert('תודה על הרכישה! (למעבר לתשלום יש להוסיף לוגיקה מתאימה)');
+checkout() {
+  const currentCart = this.cartService.cartItems();
+  
+  // בדיקה שיש ID תקין (השתמשי ב-$any אם יש בעיית אותיות גדולות/קטנות)
+  const orderId = currentCart?.id || (currentCart as any)?.Id;
+
+  if (!orderId) {
+    console.error('לא נמצא ID להזמנה');
+    return;
+  }
+
+  this.cartService.checkout(orderId).subscribe({
+    next: (response) => {
+      // response.message יכיל את "הרכישה בוצעה בהצלחה!" מהשרת
+      alert(response.message || 'הרכישה בוצעה בהצלחה!');
+    },
+    error: (err) => {
+      console.error('שגיאה באישור ההזמנה:', err);
+      // אם השרת זרק throw new InvalidOperationException, זה יגיע לכאן
+      alert('ארעה שגיאה: ' + (err.error?.message || 'לא ניתן לאשר את ההזמנה'));
     }
+  });
+}
 
 
 }

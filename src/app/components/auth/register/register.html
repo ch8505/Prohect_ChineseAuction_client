@@ -1,15 +1,110 @@
 <div class="register-container">
-  <h2>הרשמה</h2>
-  <form #regForm="ngForm" (ngSubmit)="onRegister()">
-    
-    <input type="text" name="name" [(ngModel)]="user.name" placeholder="שם מלא" required>
-    
-    <input type="email" name="email" [(ngModel)]="user.email" placeholder="אימייל" required email>
-    
-    <input type="text" name="phone" [(ngModel)]="user.phone" placeholder="טלפון">
-    
-    <input type="password" name="password" [(ngModel)]="user.password" placeholder="סיסמה" required>
+  <div class="register-wrapper">
+    <p-card class="register-card">
+      <ng-template pTemplate="header">
+        <div class="card-header">
+          <h1 class="welcome-title">הצטרפו אלינו 🎉</h1>
+          <p class="welcome-subtitle">צרו חשבון חדש</p>
+        </div>
+      </ng-template>
 
-    <button type="submit" [disabled]="!regForm.valid">הירשם</button>
-  </form>
+      <div class="form-body">
+        <!-- הודעת הצלחה -->
+        @if (successMessage()) {
+          <p-message severity="success" [text]="successMessage()" class="success-message"></p-message>
+        }
+
+        <!-- הודעת שגיאה -->
+        @if (errorMessage()) {
+          <p-message severity="error" [text]="errorMessage()" class="error-message"></p-message>
+        }
+
+        <form #regForm="ngForm" (ngSubmit)="onRegister()" class="register-form">
+          <!-- שדה שם -->
+          <div class="form-group">
+            <label class="form-label">👤 שם מלא</label>
+            <input 
+              pInputText
+              type="text" 
+              name="name" 
+              [(ngModel)]="user.name" 
+              placeholder="הזן את שמך המלא"
+              required
+              class="form-input">
+          </div>
+
+          <!-- שדה אימייל -->
+          <div class="form-group">
+            <label class="form-label">📧 אימייל</label>
+            <input 
+              pInputText
+              type="email" 
+              name="email" 
+              [(ngModel)]="user.email" 
+              placeholder="הזן את כתובת האימייל שלך"
+              required 
+              email
+              class="form-input">
+          </div>
+
+          <!-- שדה טלפון -->
+          <div class="form-group">
+            <label class="form-label">📱 טלפון</label>
+            <p-inputMask 
+              name="phone"
+              [(ngModel)]="user.phone"
+              mask="(999) 999-9999"
+              placeholder="(050) 123-4567"
+              class="form-input">
+            </p-inputMask>
+          </div>
+
+          <!-- שדה סיסמה -->
+          <div class="form-group">
+            <label class="form-label">🔐 סיסמה</label>
+            <p-password
+              name="password"
+              [(ngModel)]="user.password"
+              placeholder="הזן סיסמה חזקה"
+              [toggleMask]="true"
+              inputStyleClass="w-full"
+              required>
+            </p-password>
+          </div>
+
+          <!-- שדה אישור סיסמה -->
+          <div class="form-group">
+            <label class="form-label">✔️ אישור סיסמה</label>
+            <p-password
+              name="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              placeholder="חזור על הסיסמה"
+              [toggleMask]="true"
+              inputStyleClass="w-full"
+              required>
+            </p-password>
+          </div>
+
+          <!-- כפתורים -->
+          <div class="button-group">
+            <p-button 
+              label="הירשם"
+              icon="pi pi-user-plus"
+              [loading]="isLoading()"
+              [disabled]="!regForm.valid || isLoading()"
+              (onClick)="onRegister()"
+              class="w-full register-btn">
+            </p-button>
+          </div>
+
+          <!-- קישור להתחברות -->
+          <div class="login-link">
+            <p>כבר יש לך חשבון? 
+              <a href="/login" class="link">התחבר כאן</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
 </div>

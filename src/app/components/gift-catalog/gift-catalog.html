@@ -43,6 +43,10 @@
 
             <p class="donor-name">תרומת: {{gift.donorName}}</p>
 
+            <div class="category-badge">
+                <p-tag [value]="gift.categoryName" severity="info" class="category-tag"></p-tag>
+            </div>
+
             <ng-template pTemplate="footer">
                 <div class="flex gap-3 mt-1">
                     <p-button label="הוסף לסל" icon="pi pi-shopping-cart" class="w-full"

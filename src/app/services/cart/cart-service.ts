@@ -1,144 +1,70 @@
-// import { HttpClient } from '@angular/common/http';
-// import { computed, inject, Injectable, signal } from '@angular/core';
-// import { OrderItemCreateDto, OrderItemResponseDto, OrderResponseDto } from '../../models/order';
-// import { map, Observable, tap } from 'rxjs';
-
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class CartService {
-
-//   private http = inject(HttpClient);
-//   private apiUrl = 'https://localhost:7006/api/Orders';
-
-
-//   isCartVisible = signal<boolean>(false);   // סיגנל לשליטה על נראות העגלה מכל מקום באפליקציה
-//   cartItems = signal<OrderResponseDto | null>(null);  // אחסון פריטי העגלה
-
-//   // cartItems = signal<OrderResponseDto[]>([]);
-
-//   // constructor() {
-//   //   // ברגע שהאפליקציה עולה, אם המשתמש מחובר - נביא את העגלה
-//   //   this.loadCart();
-//   // }
-
-//   constructor() {
-//     const token = localStorage.getItem('token');
-//     console.log('CartService נוצר! האם יש טוקן?', !!token); // בדיקה
-
-//     if (token) {
-//       this.getMyCart().subscribe({
-//         next: (res) => console.log('הצלחה בטעינת עגלה:', res),
-//         error: (err) => console.error('שגיאה בטעינת עגלה:', err)
-//       });
-//     }
-//     else {
-//       console.log('אין טוקן, לא נטען עגלה');
-//     }
-//   }
-
-//   // סיגנל מחושב לכמות הפריטים - יתעדכן לבד כשהעגלה משתנה
-//   totalItemsCount = computed(() => {
-//     const cart = this.cartItems();
-//     if (!cart || !cart.orderItems) return 0;
-//     return cart.orderItems.reduce((acc, item) => acc + item.quantity, 0);
-//   });
-
-
-//   // פונקציה מרכזית לטעינת העגלה
-//   loadCart() {
-//     if (localStorage.getItem('token')) {
-//       this.http.get<OrderResponseDto>(`${this.apiUrl}/my-cart`).subscribe({
-//         next: (cart) => this.cartItems.set(cart),
-//         error: (err) => console.error('Failed to load cart', err)
-//       });
-//     } else {
-//       this.cartItems.set(null); // איפוס אם אין טוקן
-//       alert('משתמש לא מחובר, לא ניתן לטעון עגלה');
-//     }
-//   }
-
-//   // פונקציה לקבלת העגלה שלי מהשרת
-//   getMyCart(): Observable<OrderResponseDto> {
-//     return this.http.get<OrderResponseDto>(`${this.apiUrl}/my-cart`).pipe(
-//       tap(cart => this.cartItems.set(cart))
-//     );
-//   }
-
-//   // פונקציה להוספת פריטים לעגלה
-//   addToCart(items: OrderItemCreateDto[]): Observable<OrderResponseDto> {
-//     return this.http.post<OrderResponseDto>(`${this.apiUrl}`, items).pipe(
-//       tap((updatedCart) => {
-//         // 1. מעדכנים את הסיגנל עם הנתונים החדשים שהשרת החזיר
-//         this.cartItems.set(updatedCart);
-//         // 2. פותחים את העגלה אוטומטית
-//         this.isCartVisible.set(true);
-//       })
-//     );
-//   }
-
-//   // addToCart(items: OrderItemCreateDto[]): Observable<OrderResponseDto[]> {
-//   //   console.log('מנסה  לשלוח לשרת:', items);
-//   //   return this.http.post<OrderResponseDto[]>(`${this.apiUrl}`, items).pipe(
-//   //     tap(() => this.getMyCart().subscribe())
-//   //   );
-//   // }
-
-// }
-
-
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { OrderItemCreateDto, OrderResponseDto } from '../../models/order';
-import { map, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AuthService } from '../auth-service';
-
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7006/api/Orders';
+  private apiUrl = 'https://localhost:7006/api/Orders'; 
+  authService = inject(AuthService);
 
-  authService = inject(AuthService)
-
+  // סיגנלים לניהול המצב
   isCartVisible = signal<boolean>(false);
   cartItems = signal<OrderResponseDto | null>(null);
 
   constructor() {
     effect(() => {
-      const user = this.authService.currentUser(); // מאזין לשינויים במצב המשתמש
-
+      const user = this.authService.currentUser();
       if (user.token) {
-        this.getMyCart().subscribe();  // אם יש טוקן (משתמש התחבר עכשיו או היה מחובר) - טען עגלה
-
+        this.getMyCart().subscribe();
       } else {
-        this.cartItems.set(null);  // אם אין טוקן (לוגאוט) - נקה את העגלה מהמסך מיידית
+        this.cartItems.set(null);
       }
     });
   }
 
+  // === הנה החלק שהיה חסר וגרם לשגיאה ב-Header ===
   totalItemsCount = computed(() => {
     const cart = this.cartItems();
     if (!cart || !cart.orderItems) return 0;
     return cart.orderItems.reduce((acc, item) => acc + item.quantity, 0);
   });
+  // ===============================================
 
-  // ה-Observable עכשיו מחזיר אובייקט בודד ישירות
+  // טעינת העגלה
   getMyCart(): Observable<OrderResponseDto | null> {
     return this.http.get<OrderResponseDto>(`${this.apiUrl}/my-cart`).pipe(
       tap(cart => this.cartItems.set(cart))
     );
   }
 
-  // פונקציית עזר ל-Header
-  loadCart() {
-    this.getMyCart().subscribe();
+  // מחיקת פריט
+  removeOrderItem(orderId: number, orderItemId: number): Observable<void> {
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Add items to the cart.
+   * @param items - An array of items to add to the cart.
+   * @returns An observable that emits the updated cart.
+   * @remarks This method adds the items to the cart and updates the cartItems signal.
+   * It also sets the isCartVisible signal to true.
+   */
+/*******  6cc06668-65f8-453a-a0ee-067be9d842e9  *******/    if (!orderId || !orderItemId) {
+        console.error('Missing ID for delete:', { orderId, orderItemId });
+        return new Observable(); 
+    }
+    const url = `${this.apiUrl}/${orderId}/items/${orderItemId}`;
+    return this.http.delete<void>(url).pipe(
+      tap(() => this.getMyCart().subscribe())
+    );
   }
 
-  // פונקציה להוספת פריטים לעגלה
+  // הוספה לסל
   addToCart(items: OrderItemCreateDto[]): Observable<OrderResponseDto> {
+    console.log(items);
     return this.http.post<OrderResponseDto>(`${this.apiUrl}`, items).pipe(
       tap((updatedCart) => {
         this.cartItems.set(updatedCart);
@@ -146,4 +72,32 @@ export class CartService {
       })
     );
   }
+
+  // הוסף את הפונקציה הזו בתוך מחלקת CartService
+updateItemQuantity(giftId: number, change: number): void {
+  // יצירת אובייקט עם השינוי המבוקש (1 או -1)
+  const updateItem: OrderItemCreateDto = { 
+    giftId: giftId, 
+    quantity: change 
+  };
+
+  // שליחה לשרת - ה-API שלך כבר יודע לבצע += לכמות הקיימת
+  this.addToCart([updateItem]).subscribe({
+    next: () => console.log('הכמות עודכנה בהצלחה'),
+    error: (err) => console.error('שגיאה בעדכון כמות:', err)
+  });
+}
+
+//add checkout
+checkout(id: number): Observable<any> {
+  // שולחים PUT עם גוף ריק {} כפי שהשרת מצפה
+  return this.http.put<any>(`${this.apiUrl}/${id}/confirm`, {}).pipe(
+    tap(() => {
+      // ברגע שהצליח - מאפסים את העגלה בזיכרון של האנגולר
+      this.cartItems.set(null);
+      this.isCartVisible.set(false);
+    })
+  );
+}
+
 }
