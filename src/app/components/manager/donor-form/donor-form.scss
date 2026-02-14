@@ -1,0 +1,125 @@
+// משתנים
+$neon-cyan: #06b6d4;
+$glass-bg: rgba(255, 255, 255, 0.05);
+$border-color: rgba(255, 255, 255, 0.1);
+$text-color: #e2e8f0;
+
+.donor-form-container {
+    padding: 1rem;
+    direction: rtl;
+
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* --- עיצוב תוויות --- */
+    .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+            font-weight: 500;
+            color: $text-color;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .required {
+            color: #f43f5e;
+        }
+    }
+
+    .error-msg {
+        color: #f43f5e;
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+        display: block;
+    }
+
+    /* --- עיצוב אינפוטים --- */
+    ::ng-deep {
+        .p-inputtext {
+            width: 100%;
+            background: $glass-bg !important;
+            border: 1px solid $border-color !important;
+            color: #fff !important;
+            border-radius: 12px !important;
+            padding: 0.8rem 1rem !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &:enabled:focus, &:enabled:hover {
+                border-color: $neon-cyan !important;
+                box-shadow: 0 0 15px rgba(6, 182, 212, 0.15) !important;
+                background: rgba(255, 255, 255, 0.08) !important;
+            }
+            
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    /* --- עיצוב מיוחד לשדות עם אייקון (טלפון/מייל) --- */
+    .input-icon-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .input-icon {
+            position: absolute;
+            left: 1rem; // בצד שמאל כי האינפוט הוא LTR
+            color: $neon-cyan;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .ltr-input {
+            direction: ltr;
+            text-align: left;
+            padding-left: 2.5rem !important; // רווח לאייקון
+            font-family: monospace;
+        }
+    }
+
+    /* --- כפתורים --- */
+    .form-actions {
+        margin-top: 2.5rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        ::ng-deep {
+            // כפתור ביטול
+            .p-button-secondary {
+                color: #94a3b8 !important;
+                
+                &:hover {
+                    color: #fff !important;
+                    background: rgba(255, 255, 255, 0.05) !important;
+                }
+            }
+
+            // כפתור ראשי
+            button[type="submit"] {
+                .p-button {
+                    background: linear-gradient(135deg, #0ea5e9, $neon-cyan) !important;
+                    border: none !important;
+                    padding: 0.8rem 2rem !important;
+                    border-radius: 12px !important;
+                    font-weight: bold;
+                    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+                    
+                    &:hover {
+                        box-shadow: 0 0 25px rgba(6, 182, 212, 0.5) !important;
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+        }
+    }
+}

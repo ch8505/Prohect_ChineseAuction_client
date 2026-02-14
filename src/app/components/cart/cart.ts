@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { OrderResponseDto } from '../../models/order';
 import { Drawer, DrawerModule } from 'primeng/drawer';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class Cart  {
 
     cartService = inject(CartService);
-
+    private router = inject(Router);
     // ngOnInit(): void {
     //     // טעינה ראשונית של העגלה כשהאפליקציה עולה
     //     this.cartService.getMyCart().subscribe();
@@ -30,28 +31,12 @@ export class Cart  {
     }
 
 checkout() {
-  const currentCart = this.cartService.cartItems();
-  
-  // בדיקה שיש ID תקין (השתמשי ב-$any אם יש בעיית אותיות גדולות/קטנות)
-  const orderId = currentCart?.id || (currentCart as any)?.Id;
+  // 1. סגירת חלונית העגלה (כדי שלא תסתיר את דף התשלום)
+  this.cartService.isCartVisible.set(false);
 
-  if (!orderId) {
-    console.error('לא נמצא ID להזמנה');
-    return;
-  }
+  // 2. ניווט לדף התשלום החדש
+  // ודאי שב-app.routes.ts הגדרת את הנתיב 'checkout' לקומפוננטה החדשה
+  this.router.navigate(['/checkout']);
 
-  this.cartService.checkout(orderId).subscribe({
-    next: (response) => {
-      // response.message יכיל את "הרכישה בוצעה בהצלחה!" מהשרת
-      alert(response.message || 'הרכישה בוצעה בהצלחה!');
-    },
-    error: (err) => {
-      console.error('שגיאה באישור ההזמנה:', err);
-      // אם השרת זרק throw new InvalidOperationException, זה יגיע לכאן
-      alert('ארעה שגיאה: ' + (err.error?.message || 'לא ניתן לאשר את ההזמנה'));
-    }
-  });
 }
-
-
 }

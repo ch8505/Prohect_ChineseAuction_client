@@ -1,5 +1,5 @@
-<div class="catalog-container">
-    <h1 class="catalog-title">קטלוג מתנות <span class="highlight">2026</span></h1>
+<div class="page-container">
+    <h1 class="page-title">קטלוג <span class="highlight">המתנות</span></h1>
 
     <div class="controls-container">
         <div class="controls-glass-card">
@@ -7,57 +7,66 @@
             <div class="search-section">
                 <div class="input-glow-wrapper">
                     <i class="pi pi-search search-icon"></i>
-                    <input type="text" pInputText placeholder="חפש מתנה..." [ngModel]="searchTerm()"
-                        (ngModelChange)="searchTerm.set($event)" class="modern-search" />
+                    <input type="text" pInputText placeholder="חפש מתנה..." 
+                           [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" 
+                           class="modern-search" />
                 </div>
             </div>
 
             <div class="actions-section">
-                <p-select [options]="sortOptions" (onChange)="onSortPrice($event)" optionLabel="label"
-                    optionValue="value" placeholder="מיין לפי מחיר" class="premium-select">
+                
+                <p-select [options]="sortOptions" (onChange)="onSortPrice($event)" 
+                          optionLabel="label" optionValue="value" 
+                          placeholder="מיין לפי מחיר" 
+                          styleClass="premium-select">
                 </p-select>
 
-                <p-button label="קטגוריות" (onClick)="onSortCategory()" [outlined]="true"
-                    class="premium-btn filter-btn">
+                <p-button label="קטגוריות" icon="pi pi-list" (onClick)="onSortCategory()" 
+                          [outlined]="true" class="premium-btn search-btn">
                 </p-button>
 
                 <div class="divider"></div>
 
-                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" [text]="true" class="premium-btn reset-btn"
-                    pTooltip="איפוס הגדרות" tooltipPosition="bottom">
+                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" 
+                          [text]="true" class="premium-btn reset-btn"
+                          pTooltip="איפוס הגדרות" tooltipPosition="bottom">
                 </p-button>
             </div>
 
         </div>
     </div>
 
-    <div class="gift-grid">
+    <div class="gift-grid mt-4">
         @for (gift of filteredGifts(); track gift.id) {
-        <p-card [header]="gift.name" [subheader]="gift.categoryName" class="gift-card">
-            <ng-template pTemplate="header">
-                <div class="image-wrapper">
-                    <img [alt]="gift.name" [src]="gift.imageUrl || 'assets/default-gift.jpg'" />
-                    <p-tag [value]="gift.ticketPrice + ' ₪'" severity="success" class="price-tag"></p-tag>
+        <div class="gift-card-wrapper">
+            <p-card styleClass="glass-card-content">
+                <ng-template pTemplate="header">
+                    <div class="image-wrapper">
+                        <img [alt]="gift.name" [src]="gift.imageUrl || 'assets/default-gift.jpg'" />
+                        <div class="price-badge">{{ gift.ticketPrice }} ₪</div>
+                    </div>
+                </ng-template>
+
+                <div class="card-body">
+                    <h3 class="gift-name">{{ gift.name }}</h3>
+                    <p class="donor-name"><i class="pi pi-user ml-2"></i>{{ gift.donorName }}</p>
+                    
+                    <div class="category-badge">
+                        <p-tag [value]="gift.categoryName" severity="info"></p-tag>
+                    </div>
                 </div>
-            </ng-template>
 
-            <p class="donor-name">תרומת: {{gift.donorName}}</p>
-
-            <div class="category-badge">
-                <p-tag [value]="gift.categoryName" severity="info" class="category-tag"></p-tag>
-            </div>
-
-            <ng-template pTemplate="footer">
-                <div class="flex gap-3 mt-1">
-                    <p-button label="הוסף לסל" icon="pi pi-shopping-cart" class="w-full"
-                        (click)="addToCart(gift)"></p-button>
-                </div>
-            </ng-template>
-        </p-card>
+                <ng-template pTemplate="footer">
+                    <p-button label="הוסף לסל" icon="pi pi-shopping-cart" 
+                              styleClass="add-to-cart-btn" (click)="addToCart(gift)">
+                    </p-button>
+                </ng-template>
+            </p-card>
+        </div>
         } @empty {
         <div class="no-results">
-            <i class="pi pi-search-minus"></i>
-            <p>לא מצאנו מתנות שתואמות לחיפוש של "{{searchTerm()}}"</p>
+            <i class="pi pi-search" style="font-size: 3rem; color: var(--neon-cyan)"></i>
+            <p>לא נמצאו מתנות התואמות לחיפוש...</p>
         </div>
         }
     </div>

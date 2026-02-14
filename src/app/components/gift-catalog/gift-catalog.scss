@@ -1,263 +1,244 @@
-.catalog-container {
-  direction: rtl;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+// משתנים (במידה ואין גלובליים)
+$neon-cyan: #06b6d4;
+$glass-bg: rgba(15, 23, 42, 0.6);
+$glass-border: rgba(255, 255, 255, 0.1);
 
-  .catalog-title {
-    text-align: center;
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    margin-bottom: 3rem;
-    font-size: 2.5rem;
+.page-container {
+    direction: rtl;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 
-    .highlight {
-      color: var(--neon-cyan);
-      text-shadow: 0 0 15px var(--neon-cyan);
+    .page-title {
+        text-align: center;
+        color: #fff;
+        font-family: 'Orbitron', sans-serif;
+        margin-bottom: 3rem;
+        font-size: 2.5rem;
+
+        .highlight {
+            color: $neon-cyan;
+            text-shadow: 0 0 15px $neon-cyan;
+        }
     }
-  }
 }
 
-// .actions-section{
-//   display: flex;
-//   align-items: center;
-//   gap: 1rem;
-// }
-
-
-.gift-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2.5rem;
-}
-
-.gift-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 25px rgba(6, 182, 212, 0.2);
-  }
-
-  .image-wrapper {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 8px 8px 0 0;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .price-tag {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-    }
-  }
-
-  .donor-name {
-    color: #94a3b8;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .category-badge {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
-
-    .category-tag {
-      background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-      border: none;
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: capitalize;
-      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
-    }
-  }
-}
-
-/* שורת חיפוש מעוצבת */
-.search-bar-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 3rem;
-
-  .search-input {
-    width: 100%;
-    background: rgba(15, 23, 42, 0.6) !important;
-    border: 1px solid rgba(6, 182, 212, 0.3) !important;
-    color: #fff !important;
-    border-radius: 30px;
-    padding: 12px 20px 12px 40px;
-    transition: all 0.3s;
-
-    &:focus {
-      border-color: #06b6d4 !important;
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.4) !important;
-      outline: none;
-    }
-  }
-
-  i {
-    color: #06b6d4;
-    left: 15px !important;
-  }
-}
-
-/* הודעה כשאין תוצאות */
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 3rem;
-  color: #94a3b8;
-
-  i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 1.2rem;
-  }
-}
-
-
+/* --- עיצוב סרגל הבקרה (כמו בתורמים) --- */
 .controls-container {
-  padding: 0 1rem;
-  margin-bottom: 3rem;
+    margin-bottom: 3rem;
 }
 
 .controls-glass-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  padding: 0.75rem 1.5rem;
-
-  // אפקט הזכוכית (Glassmorphism)
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-
-  @media (max-width: 850px) {
-    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
     padding: 1.5rem;
-  }
+
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid $glass-border;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 992px) {
+        flex-direction: column;
+        .search-section, .actions-section { width: 100%; }
+        .actions-section { justify-content: space-between; }
+    }
 }
 
 .search-section {
-  flex: 1;
-  width: 100%;
+    flex: 1;
 
-  .input-glow-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
+    .input-glow-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
 
-    .search-icon {
-      position: absolute;
-      right: 16px;
-      color: var(--neon-cyan);
-      opacity: 0.7;
-      font-size: 1.1rem;
-      z-index: 2;
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            color: $neon-cyan;
+            opacity: 0.7;
+            font-size: 1.1rem;
+            z-index: 2;
+        }
+
+        .modern-search {
+            width: 100%;
+            height: 46px;
+            padding: 0 3rem 0 1rem !important;
+            background: rgba(0, 0, 0, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            color: #fff !important;
+            transition: all 0.4s;
+
+            &:focus {
+                border-color: $neon-cyan !important;
+                background: rgba(0, 0, 0, 0.4) !important;
+                box-shadow: 0 0 20px rgba(6, 182, 212, 0.15) !important;
+                outline: none;
+            }
+        }
     }
-
-    .modern-search {
-      width: 100%;
-      height: 46px;
-      padding: 0 3rem 0 1rem !important;
-      background: rgba(0, 0, 0, 0.2) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      border-radius: 14px !important;
-      color: #fff !important;
-      font-weight: 300;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-      &:focus {
-        border-color: var(--neon-cyan) !important;
-        background: rgba(0, 0, 0, 0.4) !important;
-        box-shadow: 0 0 20px rgba(6, 182, 212, 0.15) !important;
-        outline: none;
-      }
-    }
-  }
 }
 
 .actions-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
-  .divider {
-    width: 1px;
-    height: 24px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 0 0.5rem;
-  }
+    .divider {
+        width: 1px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 0 0.5rem;
+    }
 }
 
-/* עיצוב רכיבי PrimeNG */
+/* --- עיצוב הגריד והכרטיסים --- */
+.gift-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.gift-card-wrapper {
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-10px);
+    }
+}
+
 ::ng-deep {
-
-  // Select מעוצב
-  .premium-select {
-    .p-select {
-      background: transparent !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      border-radius: 14px !important;
-      height: 46px;
-      min-width: 200px;
-      transition: all 0.3s;
-
-      &:hover {
-        border-color: var(--neon-cyan) !important;
-      }
-
-      .p-select-label {
-        color: rgba(255, 255, 255, 0.8) !important;
-        font-size: 0.95rem;
-        padding: 10px 14px;
-      }
-    }
-  }
-
-  // כפתורים
-  .premium-btn {
-    .p-button {
-      height: 46px;
-      border-radius: 14px !important;
-      font-weight: 400 !important;
-      transition: all 0.3s ease;
-
-      &.filter-btn {
-        border-color: rgba(255, 255, 255, 0.1) !important;
+    // עיצוב כרטיס ה-PrimeNG שייראה שקוף
+    .p-card {
+        background: rgba(30, 41, 59, 0.7) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px !important;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         color: #fff !important;
-
-        &:hover {
-          background: rgba(6, 182, 212, 0.1) !important;
-          border-color: var(--neon-cyan) !important;
+        
+        .p-card-body {
+            padding: 1.5rem;
         }
-      }
-
-      &.reset-btn {
-        width: 46px;
-        color: #94a3b8 !important;
-
-        &:hover {
-          color: #ff4d4d !important;
-          background: rgba(255, 77, 77, 0.05) !important;
-          transform: rotate(-90deg);
+        
+        .p-card-content {
+            padding: 0;
         }
-      }
     }
-  }
+
+    // עיצוב ה-Select (Dropdown)
+    .premium-select {
+        .p-select {
+            background: rgba(0,0,0,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: 12px !important;
+            color: #fff !important;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            
+            &:hover { border-color: $neon-cyan !important; }
+            .p-select-label { color: #fff !important; }
+        }
+    }
+    
+    // עיצוב כפתורים
+    .premium-btn {
+        .p-button {
+            height: 46px;
+            border-radius: 14px !important;
+            
+            &.p-button-outlined {
+                color: $neon-cyan !important;
+                border-color: $neon-cyan !important;
+                &:hover { background: rgba(6, 182, 212, 0.1) !important; }
+            }
+        }
+
+        &.reset-btn .p-button {
+            color: #94a3b8 !important;
+            &:hover { color: #ff4d4d !important; transform: rotate(90deg); }
+        }
+    }
+
+    // כפתור הוספה לסל
+    .add-to-cart-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #0ea5e9, $neon-cyan) !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-weight: bold !important;
+        
+        &:hover {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4) !important;
+        }
+    }
+}
+
+/* --- תוכן הכרטיס --- */
+.image-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    &:hover img {
+        transform: scale(1.1);
+    }
+
+    .price-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.6);
+        color: $neon-cyan;
+        padding: 5px 12px;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+        font-weight: bold;
+        border: 1px solid $neon-cyan;
+    }
+}
+
+.card-body {
+    text-align: right;
+    margin-bottom: 1rem;
+
+    .gift-name {
+        font-size: 1.2rem;
+        margin: 0.5rem 0;
+        color: #fff;
+    }
+
+    .donor-name {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .category-badge {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+    color: #94a3b8;
+    font-size: 1.2rem;
 }

@@ -1,4 +1,30 @@
+<div class="raffle-timer-bar">
+    <div class="timer-label">סגירת המכירה להגרלה בעוד:</div>
+    <div class="timer-digits">
+        <div class="time-unit">
+            <span class="number">{{ countdown.days }}</span>
+            <span class="label">ימים</span>
+        </div>
+        <span class="separator">:</span>
+        <div class="time-unit">
+            <span class="number">{{ countdown.hours | number:'2.0' }}</span>
+            <span class="label">שעות</span>
+        </div>
+        <span class="separator">:</span>
+        <div class="time-unit">
+            <span class="number">{{ countdown.minutes | number:'2.0' }}</span>
+            <span class="label">דקות</span>
+        </div>
+        <span class="separator">:</span>
+        <div class="time-unit">
+            <span class="number">{{ countdown.seconds | number:'2.0' }}</span>
+            <span class="label">שניות</span>
+        </div>
+    </div>
+</div>
+
 <header class="navbar">
+    
     <div class="logo-container" routerLink="/">
         <i class="pi pi-box logo-icon"></i>
         <span class="brand-name">MAGDALOR <span class="highlight">TECH</span></span>
@@ -29,10 +55,11 @@
         } @else {
         <a (click)="logout()" class="login-link" style="cursor: pointer;"><i class="pi pi-sign-out"></i></a>
         }
-        <div class="cart-icon" (click)="cartService.isCartVisible.set(true)">
-            <i class="pi pi-shopping-cart"></i>
+        
+        <div class="cart-wrapper" (click)="cartService.isCartVisible.set(true)">
+            <i class="pi pi-shopping-cart cart-icon"></i>
             @if(cartService.totalItemsCount() > 0) {
-            <span class="badge">{{ cartService.totalItemsCount() }}</span>
+                <span class="cart-badge">{{ cartService.totalItemsCount() }}</span>
             }
         </div>
     </div>

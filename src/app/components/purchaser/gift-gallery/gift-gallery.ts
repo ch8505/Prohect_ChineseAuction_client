@@ -9,13 +9,14 @@ import { GiftFormComponent } from '../../gift-form/gift-form';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { Tag } from "primeng/tag";
 
 
 
 @Component({
   selector: 'app-gift-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule],
+  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule, Tag],
   templateUrl: './gift-gallery.html',
   styleUrl: './gift-gallery.scss',
 })
