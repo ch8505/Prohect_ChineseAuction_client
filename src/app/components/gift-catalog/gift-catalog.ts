@@ -11,9 +11,10 @@ import { SelectModule } from 'primeng/select';
 import { SelectChangeEvent } from 'primeng/select';
 import { CartService } from '../../services/cart/cart-service';
 import { OrderItemCreateDto } from '../../models/order';
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-gift-catalog',
-  imports: [CommonModule, CardModule, ButtonModule, TagModule, FormsModule, InputTextModule, SelectModule],
+  imports: [CommonModule, CardModule, ButtonModule, TagModule, FormsModule, InputTextModule, SelectModule,ToastModule],
   templateUrl: './gift-catalog.html',
   styleUrl: './gift-catalog.scss',
 })
@@ -91,6 +92,10 @@ export class GiftCatalog {
       }
     });
   }
+isUserLoggedIn(): boolean {
+ 
+  return !!localStorage.getItem('token'); 
+}
 
 }
 

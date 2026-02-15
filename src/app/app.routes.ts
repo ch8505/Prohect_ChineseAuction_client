@@ -6,6 +6,8 @@ import { Home } from './pages/home/home';
 import { GiftCatalog } from './components/gift-catalog/gift-catalog';
 import { ManagementDonor } from './components/manager/management-donor/management-donor';
 import { Checkout } from './components/checkout/checkout';
+import { ManagerUsers } from './components/manager/manager-users/manager-users';
+import { ManagementLottery } from './components/manager/management-lottery/management-lottery';
  // <--- תוודאי שהייבוא נכון
 export const routes: Routes = [
     { path: '', component: Home }, 
@@ -20,8 +22,8 @@ export const routes: Routes = [
             { path: '', component: GiftGallery }, // ברירת מחדל לניהול מתנות
             { path: 'gifts', component: GiftGallery }, // ניהול מתנות
             { path: 'donors', component: ManagementDonor },   // ניהול תורמים
-            { path: 'raffle', component: Home },   // זמני: הפניה להום עד שייבנה
-            { path: 'reports', component: Home } ,
+            { path: 'raffle', component: ManagementLottery },   // זמני: הפניה להום עד שייבנה
+            { path: 'reports', component: ManagerUsers } ,
          // זמני: הפניה להום עד שייבנה
         ]
     },

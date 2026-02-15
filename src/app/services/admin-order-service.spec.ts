@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LotterySerice } from './lottery-serice';
+import { AdminOrderService } from './admin-order-service';
 
-describe('LotterySerice', () => {
-  let service: LotterySerice;
+describe('AdminOrderService', () => {
+  let service: AdminOrderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LotterySerice);
+    service = TestBed.inject(AdminOrderService);
   });
 
   it('should be created', () => {

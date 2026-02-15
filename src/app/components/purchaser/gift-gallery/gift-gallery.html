@@ -18,6 +18,7 @@
                     <th>שם המתנה</th>
                     <th>מחיר</th>
                     <th>קטגוריה</th>
+                    <th>כמות כרטיסים שנקנו</th>
                     <th>תורם</th>
                     <th>פעולות</th>
                 </tr>
@@ -34,6 +35,7 @@
                     <td style="font-weight: bold; font-size: 1.1em;">{{gift.name}}</td>
                     <td style="color: #06b6d4; font-family: monospace; font-size: 1.2em;">{{gift.ticketPrice}} ₪</td>
                     <td><p-tag [value]="gift.categoryName" severity="info"></p-tag></td>
+                    <td>{{gift.purchasersCount}} כרטיסים</td>
                     <td>{{gift.donorName}}</td>
                     
                     <td>

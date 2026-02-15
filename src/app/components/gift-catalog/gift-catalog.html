@@ -7,29 +7,25 @@
             <div class="search-section">
                 <div class="input-glow-wrapper">
                     <i class="pi pi-search search-icon"></i>
-                    <input type="text" pInputText placeholder="חפש מתנה..." 
-                           [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" 
-                           class="modern-search" />
+                    <input type="text" pInputText placeholder="חפש מתנה..." [ngModel]="searchTerm()"
+                        (ngModelChange)="searchTerm.set($event)" class="modern-search" />
                 </div>
             </div>
 
             <div class="actions-section">
-                
-                <p-select [options]="sortOptions" (onChange)="onSortPrice($event)" 
-                          optionLabel="label" optionValue="value" 
-                          placeholder="מיין לפי מחיר" 
-                          styleClass="premium-select">
+
+                <p-select [options]="sortOptions" (onChange)="onSortPrice($event)" optionLabel="label"
+                    optionValue="value" placeholder="מיין לפי מחיר" styleClass="premium-select">
                 </p-select>
 
-                <p-button label="קטגוריות" icon="pi pi-list" (onClick)="onSortCategory()" 
-                          [outlined]="true" class="premium-btn search-btn">
+                <p-button label="קטגוריות" icon="pi pi-list" (onClick)="onSortCategory()" [outlined]="true"
+                    class="premium-btn search-btn">
                 </p-button>
 
                 <div class="divider"></div>
 
-                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" 
-                          [text]="true" class="premium-btn reset-btn"
-                          pTooltip="איפוס הגדרות" tooltipPosition="bottom">
+                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" [text]="true" class="premium-btn reset-btn"
+                    pTooltip="איפוס הגדרות" tooltipPosition="bottom">
                 </p-button>
             </div>
 
@@ -50,15 +46,15 @@
                 <div class="card-body">
                     <h3 class="gift-name">{{ gift.name }}</h3>
                     <p class="donor-name"><i class="pi pi-user ml-2"></i>{{ gift.donorName }}</p>
-                    
+
                     <div class="category-badge">
                         <p-tag [value]="gift.categoryName" severity="info"></p-tag>
                     </div>
                 </div>
 
                 <ng-template pTemplate="footer">
-                    <p-button label="הוסף לסל" icon="pi pi-shopping-cart" 
-                              styleClass="add-to-cart-btn" (click)="addToCart(gift)">
+                    <p-button label="הוסף לסל" icon="pi pi-shopping-cart" styleClass="add-to-cart-btn"
+                        (click)="addToCart(gift)" [disabled]="!isUserLoggedIn()">
                     </p-button>
                 </ng-template>
             </p-card>

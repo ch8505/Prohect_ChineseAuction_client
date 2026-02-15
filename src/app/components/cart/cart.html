@@ -3,8 +3,8 @@
   <br>
   {{ cartService.cartItems() | json }}
 </div> -->
-<p-drawer header="MY CART" [visible]="cartService.isCartVisible()"
-  (visibleChange)="cartService.isCartVisible.set($event)" position="left"
+<p-drawer header="" [visible]="cartService.isCartVisible()"
+  (visibleChange)="cartService.isCartVisible.set($event)" position="right"
   [style]="{width: '400px', background: '#0f172a', color: 'white'}">
 
   <div class="cart-content">
