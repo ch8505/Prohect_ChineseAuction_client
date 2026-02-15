@@ -1,24 +1,69 @@
-<p-drawer header="MY CART" [visible]="cartService.isCartVisible()"
-  (visibleChange)="cartService.isCartVisible.set($event)" position="left"
+<!-- <div style="background: black; color: yellow; padding: 20px; direction: ltr; font-family: monospace; z-index: 9999; position: relative;">
+  <strong>X-RAY DEBUG:</strong>
+  <br>
+  {{ cartService.cartItems() | json }}
+</div> -->
+<p-drawer header="" [visible]="cartService.isCartVisible()"
+  (visibleChange)="cartService.isCartVisible.set($event)" position="right"
   [style]="{width: '400px', background: '#0f172a', color: 'white'}">
 
   <div class="cart-content">
-    @let items = cartService.cartItems()?.orderItems;
+    @let cart = cartService.cartItems();
 
-    @if (items && items.length > 0) {
-    @for (item of items; track item.giftName) {
-    <div class="cart-item">
-      <span>{{ item.giftName }}</span>
-      <span>x{{ item.quantity }}</span>
-      <span>{{ item.unitPrice }} ₪</span>
+    @if (cart && cart.orderItems && cart.orderItems.length > 0) {
+
+    @for (item of cart.orderItems; track $index) {
+    <div class="cart-item"
+      style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px;">
+
+      <div class="item-info">
+        <div style="font-weight: bold;">{{ item.giftName || $any(item).GiftName }}</div>
+        <div style="font-size: 0.9em; color: #cbd5e1;">{{ item.unitPrice || $any(item).UnitPrice }} ₪</div>
+        <div style="font-size: 0.8em; color: #94a3b8;">כמות: {{ item.quantity || $any(item).Quantity }}</div>
+
+      </div>
+      <div class="item-controls" style="display: flex; align-items: center; gap: 12px; margin-top: 5px;">
+
+        <p-button icon="pi pi-minus" [rounded]="true" [text]="true" severity="secondary"
+          [style]="{'width': '2rem', 'height': '2rem'}"
+          (click)="cartService.updateItemQuantity(item.giftId || $any(item).GiftId, -1)"
+          [disabled]="(item.quantity || $any(item).Quantity) <= 1">
+        </p-button>
+
+        <span style="font-weight: bold; min-width: 20px; text-align: center;">
+          {{ item.quantity || $any(item).Quantity }}
+        </span>
+
+        <p-button icon="pi pi-plus" [rounded]="true" [text]="true" severity="secondary"
+          [style]="{'width': '2rem', 'height': '2rem'}"
+          (click)="cartService.updateItemQuantity(item.giftId || $any(item).GiftId, 1)">
+        </p-button>
+
+      </div>
+      <div class="item-actions">
+
+       <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+    (click)="cartService.removeOrderItem(
+        $any(cart).id || $any(cart).Id || $any(cart).OrderId, 
+        $any(item).id || $any(item).Id || $any(item).OrderItemId
+    ).subscribe()">
+</p-button>
+    </div>
+    
     </div>
     }
-    <div class="cart-summary">
-      <p>TOTAL: {{ cartService.cartItems()?.totalAmount }} ₪</p>
-      <p-button label="CHECKOUT NOW" (onClick)="checkout()"></p-button>
+
+    <div class="cart-summary" style="margin-top: 20px; padding: 15px; background: #1e293b; border-radius: 8px;">
+      <p style="font-size: 1.2em; font-weight: bold;">סה"כ לתשלום: {{ cart.totalAmount || $any(cart).TotalAmount }} ₪
+      </p>
+      <p-button label="לקופה" styleClass="p-button-success w-full" (click)="checkout()"></p-button>
     </div>
+
     } @else {
-    <div class="empty-state">העגלה ריקה או נטענת...</div>
+    <div class="empty-state" style="text-align: center; margin-top: 50px;">
+      <i class="pi pi-shopping-cart" style="font-size: 3rem; color: #475569;"></i>
+      <p>העגלה ריקה</p>
+    </div>
     }
   </div>
 </p-drawer>

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Gift, GiftUpsert, Category, GiftSubmission } from '../../models/gift'
+import { Gift, GiftUpsert, Category, GiftSubmission } from '../../../models/gift'
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -14,6 +14,7 @@ import { FileUploadModule } from 'primeng/fileupload';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, InputTextModule, InputNumberModule, SelectModule, ButtonModule, FileUploadModule],
   templateUrl: './gift-form.html',
+  styleUrl: './gift-form.scss'
 })
 export class GiftFormComponent {
 
@@ -32,21 +33,6 @@ export class GiftFormComponent {
     imageUrl: new FormControl(''),
     categoryId: new FormControl<number | null>(null, Validators.required)
   });
-
-
-  // ngOnChanges(): void {
-  //   if (this.giftToEdit) {
-  //     this.form.patchValue({
-  //       name: this.giftToEdit.name,
-  //       ticketPrice: this.giftToEdit.ticketPrice,
-  //       description: this.giftToEdit.description,
-  //       imageUrl: this.giftToEdit.imageUrl,
-  //       categoryId: this.giftToEdit.categoryId
-  //     });
-  //   } else {
-  //     this.form.reset();
-  //   }
-  // }
 
   ngOnChanges(changes: SimpleChanges): void {
     // איפוס חובה של הקובץ בכל פעם שהטופס מוצג מחדש!

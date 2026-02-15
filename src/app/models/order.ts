@@ -21,19 +21,20 @@ export interface OrderItemCreateDto {
   quantity: number;
 }
 
+
 export interface OrderItemResponseDto {
-  giftId?: number; // מומלץ להוסיף ב-API כדי לזהות את הפריט למחיקה
-  giftName: string;
-  quantity: number;
-  unitPrice: number;
+    id: number;        // <--- חובה להוסיף את זה! (זה ה-OrderItemId למחיקה)
+    giftId: number;
+    giftName: string;
+    quantity: number;
+    unitPrice: number;
 }
 
 export interface OrderResponseDto {
-  id: number; // ודאי שה-API מחזיר ID עבור ה-PUT וה-DELETE
-  userId: number;
-  userName: string;
-  totalAmount: number;
-  status: string;
-  orderDate: Date;
-  orderItems: OrderItemResponseDto[];
+    id: number;          // חובה: מזהה ההזמנה
+    userId: number;
+    orderDate: Date;
+    totalAmount: number;
+    orderItems: OrderItemResponseDto[];
 }
+

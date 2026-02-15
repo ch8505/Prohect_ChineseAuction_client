@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { OrderResponseDto } from '../../models/order';
 import { Drawer, DrawerModule } from 'primeng/drawer';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class Cart  {
 
     cartService = inject(CartService);
-
+    private router = inject(Router);
     // ngOnInit(): void {
     //     // טעינה ראשונית של העגלה כשהאפליקציה עולה
     //     this.cartService.getMyCart().subscribe();
@@ -29,11 +30,13 @@ export class Cart  {
         }
     }
 
-    checkout() {
-        console.log('Proceeding to checkout with items:', this.cartService.cartItems());
-        // הוספת לוגיקה להמשך לתשלום כאן
-        alert('תודה על הרכישה! (למעבר לתשלום יש להוסיף לוגיקה מתאימה)');
-    }
+checkout() {
+  // 1. סגירת חלונית העגלה (כדי שלא תסתיר את דף התשלום)
+  this.cartService.isCartVisible.set(false);
 
+  // 2. ניווט לדף התשלום החדש
+  // ודאי שב-app.routes.ts הגדרת את הנתיב 'checkout' לקומפוננטה החדשה
+  this.router.navigate(['/checkout']);
 
+}
 }

@@ -5,17 +5,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category, Gift, GiftUpsert } from '../../../models/gift';
 import { GiftService } from '../../../services/gift-service';
-import { GiftFormComponent } from '../../gift-form/gift-form';
+import { LotterySerice } from '../../../services/lottery-service';
+import { GiftFormComponent } from '../../gift/gift-form/gift-form';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { Tag } from "primeng/tag";
 
 
 
 @Component({
   selector: 'app-gift-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule],
+  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule, Tag],
   templateUrl: './gift-gallery.html',
   styleUrl: './gift-gallery.scss',
 })
@@ -31,6 +33,9 @@ export class GiftGallery implements OnInit {
     this.loadCategories(); // <--- קריאה חדשה
   }
   private giftService = inject(GiftService);
+  private lotteryService = inject(LotterySerice);
+
+
   listOfGifts: Gift[] = [];
   selectedGift: Gift | null = null;
   displayDialog: boolean = false;
@@ -45,6 +50,8 @@ export class GiftGallery implements OnInit {
       error: (err) => console.error('לא הצליח לטעון קטגוריות', err)
     });
   }
+
+
   //get all gifts
   loadGifts() {
     this.giftService.getAll().subscribe({
@@ -55,6 +62,8 @@ export class GiftGallery implements OnInit {
       error: err => console.error('Failed to load gifts', err)
     });
   }
+
+  //להוסיף מתנה
   onAdd() {
     this.selectedGift = null; // מאפסים את המתנה כדי שהטופס ייפתח ריק
     this.displayDialog = true;
@@ -104,7 +113,6 @@ export class GiftGallery implements OnInit {
     }
   }
 
-
   private handleSuccess() {
     this.loadGifts();
     this.closeDialog();
@@ -122,6 +130,12 @@ export class GiftGallery implements OnInit {
       });
     }
   }
+
+// פונקציה לדוגמה להפעלת הגרלה על מתנה מסוימת
+  lottery(giftId: number) {
+  console.log('מבצע הגרלה עבור מתנה:', giftId);
+  // כאן תבוא הלוגיקה של ההגרלה בהמשך
+}
 }
 
 

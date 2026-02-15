@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GiftForm } from './gift-form';
+import { ManagementLottery } from './management-lottery';
 
-describe('GiftForm', () => {
-  let component: GiftForm;
-  let fixture: ComponentFixture<GiftForm>;
+describe('ManagementLottery', () => {
+  let component: ManagementLottery;
+  let fixture: ComponentFixture<ManagementLottery>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GiftForm]
+      imports: [ManagementLottery]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GiftForm);
+    fixture = TestBed.createComponent(ManagementLottery);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

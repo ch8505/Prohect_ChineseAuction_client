@@ -1,27 +1,67 @@
 <div class="login-container">
-  <h2>כניסה למערכת</h2>
-  
-  <form #loginForm="ngForm" (ngSubmit)="onLogin()">
-    
-    <div>
-      <label>אימייל:</label>
-      <input 
-        type="email" 
-        name="email" 
-        [(ngModel)]="credentials.email" 
-        required 
-        email>
-    </div>
+  <div class="login-wrapper">
+    <p-card class="login-card">
+      <ng-template pTemplate="header">
+        <div class="card-header">
+          <h1 class="welcome-title">ברוכים הבאים 👋</h1>
+          <p class="welcome-subtitle">התחברו לחשבונכם</p>
+        </div>
+      </ng-template>
 
-    <div>
-      <label>סיסמה:</label>
-      <input 
-        type="password" 
-        name="password" 
-        [(ngModel)]="credentials.password" 
-        required>
-    </div>
+      <div class="form-body">
+        <!-- הודעת שגיאה -->
+        @if (errorMessage()) {
+          <p-message severity="error" [text]="errorMessage()" class="error-message"></p-message>
+        }
 
-    <button type="submit" [disabled]="!loginForm.valid">התחבר</button>
-  </form>
+        <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="login-form">
+          <!-- שדה אימייל -->
+          <div class="form-group">
+            <label class="form-label">📧 אימייל</label>
+            <input 
+              pInputText
+              type="email" 
+              name="email" 
+              [(ngModel)]="credentials.email" 
+              placeholder="הזן את כתובת האימייל שלך"
+              required 
+              email
+              class="form-input">
+          </div>
+
+          <!-- שדה סיסמה -->
+          <div class="form-group">
+            <label class="form-label">🔐 סיסמה</label>
+            <p-password
+              name="password"
+              [(ngModel)]="credentials.password"
+              placeholder="הזן את הסיסמה שלך"
+              [toggleMask]="true"
+              inputStyleClass="w-full"
+              required>
+            </p-password>
+          </div>
+
+          <!-- כפתורים -->
+          <div class="button-group">
+            <p-button 
+              label="התחבר"
+              icon="pi pi-sign-in"
+              [loading]="isLoading()"
+              [disabled]="!loginForm.valid || isLoading()"
+              (onClick)="onLogin()"
+              class="w-full login-btn">
+            </p-button>
+          </div>
+
+          <!-- קישור להרשמה -->
+          <div class="signup-link">
+            <p>עדיין אין חשבון? 
+                <a (click)="switchToRegister.emit()" style="cursor: pointer;" class="link">הירשם כאן</a>
+            </p>
+        </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
 </div>
