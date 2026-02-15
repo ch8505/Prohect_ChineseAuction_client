@@ -100,9 +100,9 @@
           <!-- קישור להתחברות -->
           <div class="login-link">
             <p>כבר יש לך חשבון? 
-              <a href="/login" class="link">התחבר כאן</a>
+                <a (click)="switchToLogin.emit()" style="cursor: pointer;" class="link">התחבר כאן</a>
             </p>
-          </div>
+        </div>
         </form>
       </div>
     </p-card>

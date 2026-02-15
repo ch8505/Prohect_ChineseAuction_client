@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Category, Gift, GiftUpsert } from '../../../models/gift';
 import { GiftService } from '../../../services/gift-service';
 import { LotterySerice } from '../../../services/lottery-service';
-import { GiftFormComponent } from '../../gift-form/gift-form';
+import { GiftFormComponent } from '../../gift/gift-form/gift-form';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';

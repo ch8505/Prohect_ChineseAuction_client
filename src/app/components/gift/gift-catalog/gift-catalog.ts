@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GiftService } from '../../services/gift-service';
-import { Gift } from '../../models/gift';
+import { GiftService } from '../../../services/gift-service';
+import { Gift } from '../../../models/gift';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -9,8 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { SelectChangeEvent } from 'primeng/select';
-import { CartService } from '../../services/cart/cart-service';
-import { OrderItemCreateDto } from '../../models/order';
+import { CartService } from '../../../services/cart/cart-service';
 import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-gift-catalog',

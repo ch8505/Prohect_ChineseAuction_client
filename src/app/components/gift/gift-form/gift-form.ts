@@ -1,66 +1,9 @@
-// import { Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-// import { Gift } from '../../models/gift'
 
-// @Component({
-//   selector: 'app-gift-form',
-//   standalone:true,
-//   imports: [CommonModule, ReactiveFormsModule],
-//   templateUrl: './gift-form.html',
-//   styleUrl: './gift-form.scss',
-// })
-// export class GiftForm {
-
-
-//   // @Input מאפשר לקבל מתנה מבחוץ (מהטבלה) לעריכה
-//   @Input() giftToEdit: Gift | null = null;
-
-//   // @Output מאפשר להחזיר את הנתונים המעודכנים לקומפוננטה הראשית
-//   @Output() saved = new EventEmitter<Gift>();
-//   @Output() cancelled = new EventEmitter<void>();
-
-//   giftForm!: FormGroup;
-
-//   ngOnInit(): void {
-//     this.initForm();
-//   }
-
-//   ngOnChanges(changes: SimpleChanges): void {
-//     if (changes['giftToEdit'] && this.giftToEdit) {
-//       // אם כבר יש טופס, פשוט נעדכן את הערכים שלו
-//       if (this.giftForm) {
-//         this.giftForm.patchValue(this.giftToEdit);
-//       } else {
-//         // אם זו הפעם הראשונה, ניצור את הטופס
-//         this.initForm();
-//       }
-//     }
-//   }
-
-//   initForm() {
-//     this.giftForm = new FormGroup({
-//       id: new FormControl(this.giftToEdit?.id || 0),
-//       name: new FormControl(this.giftToEdit?.name || '', [Validators.required, Validators.minLength(2)]),
-//       description: new FormControl(this.giftToEdit?.description || '', Validators.required),
-//       ticketPrice: new FormControl(this.giftToEdit?.ticketPrice || 0, [Validators.required, Validators.min(1)]),
-//       imageUrl: new FormControl(this.giftToEdit?.imageUrl || ''),
-//       categoryId: new FormControl(this.giftToEdit?.categoryId || 1, Validators.required)
-//     });
-//   }
-
-//   submit() {
-//     if (this.giftForm.valid) {
-//       this.saved.emit(this.giftForm.value); // שולח את האובייקט המלא והנקי
-//     }
-//   }
-
-// }
 
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Gift, GiftUpsert, Category } from '../../models/gift'
+import { Gift, GiftUpsert, Category } from '../../../models/gift';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';

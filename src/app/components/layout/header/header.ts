@@ -4,11 +4,14 @@ import { ButtonModule } from 'primeng/button';
 import { CartService } from '../../../services/cart/cart-service';
 import { AuthService } from '../../../services/auth-service';
 import { CommonModule } from '@angular/common';
+import { DrawerModule } from 'primeng/drawer';
+import { LoginComponent } from "../../auth/login/login";
+import { RegisterComponent } from "../../auth/register/register";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, ButtonModule, CommonModule],
+  imports: [RouterLink, RouterLinkActive, ButtonModule, CommonModule, DrawerModule, LoginComponent, RegisterComponent],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -20,6 +23,8 @@ export class Header implements OnInit, OnDestroy {
 
   isLoggedIn = this.authService.isLoggedIn;
   isAdmin = this.authService.isAdmin;
+  isAuthVisible = signal<boolean>(false); // סיגנל חדש לנראות חלונית ההתחברות
+  authMode = signal<'login' | 'register'>('login'); // סיגנל למעבר בין התחברו
 
   // --- לוגיקת טיימר ---
   targetDate: Date = new Date();
@@ -32,6 +37,7 @@ export class Header implements OnInit, OnDestroy {
     
     this.startTimer();
   }
+  
 
   ngOnDestroy() {
     if (this.intervalId) clearInterval(this.intervalId);
@@ -65,5 +71,14 @@ export class Header implements OnInit, OnDestroy {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+  openLogin() {
+    this.authMode.set('login');
+    this.isAuthVisible.set(true);
+  }
+
+  openRegister() {
+    this.authMode.set('register');
+    this.isAuthVisible.set(true);
   }
 }

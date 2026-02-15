@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,6 +28,8 @@ export class RegisterComponent {
   isLoading = signal(false);
   successMessage = signal<string | undefined>(undefined);
   errorMessage = signal<string | undefined>(undefined);
+  @Output() onSuccess = new EventEmitter<void>();
+  @Output() switchToLogin = new EventEmitter<void>();
 
   constructor(private authService: AuthService, private router: Router) {}
 
