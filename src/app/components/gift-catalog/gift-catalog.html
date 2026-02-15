@@ -36,7 +36,8 @@
         <p-card [header]="gift.name" [subheader]="gift.categoryName" class="gift-card">
             <ng-template pTemplate="header">
                 <div class="image-wrapper">
-                    <img [alt]="gift.name" [src]="gift.imageUrl || 'assets/default-gift.jpg'" />
+                    <img [alt]="gift.name"
+                        [src]="gift.imageUrl ? IMAGE_BASE_URL + gift.imageUrl : '/images/default-gift.png'" />
                     <p-tag [value]="gift.ticketPrice + ' ₪'" severity="success" class="price-tag"></p-tag>
                 </div>
             </ng-template>

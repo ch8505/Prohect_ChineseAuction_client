@@ -73,7 +73,7 @@ export interface GiftUpsert {
   name: string;
   ticketPrice: number;
   description?: string;
-  imageUrl?: string;
+  // imageUrl?: string;
   categoryId?: number;
 }
 
@@ -86,5 +86,11 @@ export interface Category {
 export interface Donor {
   id: number;
   name: string;
+}
+
+/* ========= יצירת מתנה ========= */
+export interface GiftSubmission {
+    data: GiftUpsert;
+    file: File | null;
 }
 

@@ -1,9 +1,9 @@
+
+
+
 <div class="flex justify-content-end mb-3">
     <p-button label="הוספת מתנה חדשה" icon="pi pi-plus" (click)="onAdd()"></p-button>
 </div>
-
-
-
 
 <p-table [value]="listOfGifts" class="p-datatable-striped">
     <ng-template pTemplate="header">
@@ -25,7 +25,10 @@
             <td>{{gift.name}}</td>
             <td>{{gift.ticketPrice}} ₪</td>
             <td>{{gift.categoryName}}</td>
-            <td><img [src]="gift.imageUrl" width="50" height="50" /></td>
+            <td>
+                <img [src]="gift.imageUrl ? IMAGE_BASE_URL + gift.imageUrl : '/images/default-gift.png'"
+                    [alt]="gift.name" width="50" height="50" class="shadow-2 border-round" style="object-fit: cover;" />
+            </td>
             <td>{{gift.donorName}}</td>
             <td>
                 <p-button icon="pi pi-pencil" [text]="true" (click)="onEdit(gift)"></p-button>
@@ -41,11 +44,9 @@
 
 
 @if(displayDialog) {
-<p-dialog [header]="selectedGift ? 'עריכת מתנה' : 'הוספת מתנה חדשה'" [(visible)]="displayDialog" [style]="{width: '50vw'}">
-    <app-gift-form 
-        [giftToEdit]="selectedGift" 
-        [categories]="categories"
-        (save)="onSaveGift($event)"
+<p-dialog [header]="selectedGift ? 'עריכת מתנה' : 'הוספת מתנה חדשה'" [(visible)]="displayDialog"
+    [style]="{width: '50vw'}">
+    <app-gift-form (save)="onSaveGift($event)" [categories]="categories" [giftToEdit]="selectedGift"
         (cancel)="closeDialog()">
     </app-gift-form>
 </p-dialog>
