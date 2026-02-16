@@ -55,13 +55,15 @@
         } @else {
         <a (click)="logout()" class="login-link" style="cursor: pointer;"><i class="pi pi-sign-out"></i></a>
         }
-        <div class="cart-icon" (click)="cartService.isCartVisible.set(true)">
-            <i class="pi pi-shopping-cart"></i>
-            @if(cartService.totalItemsCount() > 0) {
-            <span class="badge">{{ cartService.totalItemsCount() }}</span>
-            }
+        <div class="cart-glow-wrapper" (click)="cartService.isCartVisible.set(true)">
+            <div class="cart-container">
+                <i class="pi pi-shopping-cart cart-icon"></i>
+                @if(cartService.totalItemsCount() > 0) {
+                <span class="neon-badge">{{ cartService.totalItemsCount() }}</span>
+                }
+            </div>
         </div>
-        
+
         <p-drawer [visible]="isAuthVisible()" (visibleChange)="isAuthVisible.set($event)" position="right"
             [style]="{width: '400px', background: '#0f172a', color: 'white'}">
 

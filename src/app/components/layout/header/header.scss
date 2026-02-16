@@ -258,3 +258,76 @@
     .raffle-timer-bar { flex-direction: column; gap: 5px; }
     .raffle-timer-bar .timer-digits { gap: 5px; }
 }
+
+.cart-glow-wrapper {
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    .cart-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .cart-icon {
+            font-size: 1.6rem;
+            color: #fff;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+            transition: all 0.3s ease;
+        }
+    }
+
+    /* אפקט ההארה במעבר עכבר */
+    &:hover {
+        .cart-icon {
+            color: var(--neon-cyan);
+            filter: drop-shadow(0 0 8px var(--neon-cyan));
+            transform: scale(1.1);
+        }
+    }
+
+    /* הבאג' המאיר (מספר הכרטיסים) */
+    .neon-badge {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: #ef4444; /* אדום בסיסי */
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 800;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        /* הקסם של ההארה */
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 
+                    0 0 20px rgba(239, 68, 68, 0.4);
+        border: 2px solid #0f172a; /* מפריד מהרקע הכהה */
+        
+        /* אנימציית נשימה עדינה כדי שישימו לב שיש מוצרים בעגלה */
+        animation: pulse-glow 2s infinite;
+    }
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(239, 68, 68, 1), 0 0 25px rgba(239, 68, 68, 0.4);
+        transform: scale(1.1);
+    }
+    100% {
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+        transform: scale(1);
+    }
+}
