@@ -1,8 +1,10 @@
+@use "sass:color";
 $neon-cyan: #06b6d4;
 $neon-purple: #bd00ff;
 $neon-gold: #eab308;
 $glass-bg: rgba(15, 23, 42, 0.6);
 $dark-bg: #0f172a;
+
 
 .dashboard-wrapper {
     direction: rtl;
@@ -86,10 +88,10 @@ $dark-bg: #0f172a;
     }
     
     // צבעים ייחודיים לכל כרטיס
-    &.revenue-card .stat-icon { background: linear-gradient(135deg, $neon-cyan, darken($neon-cyan, 20%)); box-shadow: 0 4px 15px rgba($neon-cyan, 0.3); }
-    &.gifts-card .stat-icon { background: linear-gradient(135deg, $neon-purple, darken($neon-purple, 20%)); box-shadow: 0 4px 15px rgba($neon-purple, 0.3); }
-    &.donors-card .stat-icon { background: linear-gradient(135deg, #ec4899, darken(#ec4899, 20%)); box-shadow: 0 4px 15px rgba(#ec4899, 0.3); }
-    &.star-card .stat-icon { background: linear-gradient(135deg, $neon-gold, darken($neon-gold, 20%)); box-shadow: 0 4px 15px rgba($neon-gold, 0.3); }
+    &.revenue-card .stat-icon { background: linear-gradient(135deg, $neon-cyan, color.adjust($neon-cyan, $lightness: -20%)); box-shadow: 0 4px 15px rgba($neon-cyan, 0.3); }
+    &.gifts-card .stat-icon { background: linear-gradient(135deg, $neon-purple, color.adjust($neon-purple, $lightness: -20%)); box-shadow: 0 4px 15px rgba($neon-purple, 0.3); }
+    &.donors-card .stat-icon { background: linear-gradient(135deg, #ec4899, color.adjust(#ec4899, $lightness: -20%)); box-shadow: 0 4px 15px rgba(#ec4899, 0.3); }
+    &.star-card .stat-icon { background: linear-gradient(135deg, $neon-gold, color.adjust($neon-gold, $lightness: -20%)); box-shadow: 0 4px 15px rgba($neon-gold, 0.3); }
 }
 
 /* --- Charts Section --- */

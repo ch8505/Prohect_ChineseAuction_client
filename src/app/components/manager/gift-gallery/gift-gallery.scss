@@ -1,138 +1,205 @@
-// משתנים לעיצוב (אם אין לך גלובליים)
-$neon-cyan: #06b6d4;
-$glass-bg: rgba(15, 23, 42, 0.6);
+@use "../../../../styles.scss" as global;
 
 .page-container {
-    direction: rtl;
-    padding: 2rem;
-    max-width: 1200px;
+    padding: 2rem 4rem;
+    max-width: 1400px;
     margin: 0 auto;
+    direction: rtl;
+    font-family: 'Heebo', sans-serif;
+}
+
+/* --- Page Header (כמו בתורמים) --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
 
     .page-title {
-        text-align: center;
-        color: #fff;
-        font-family: sans-serif; // או הפונט שלך
-        margin-bottom: 3rem;
         font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0;
+        color: white;
 
         .highlight {
-            color: $neon-cyan;
-            text-shadow: 0 0 15px $neon-cyan;
+            background: linear-gradient(90deg, #06b6d4, #a78bfa);
+            display: inline-block;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent; // מבטל את ה"קווקו" ומבטיח שהגרדיאנט יוצג
+        }
+    }
+
+    .subtitle {
+        color: #94a3b8;
+        margin-top: 0.5rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* --- כפתור הוספה מעוצב --- */
+::ng-deep .cta-gradient-btn .p-button {
+    background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%) !important;
+    border: none !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3) !important;
+    transition: 0.3s !important;
+
+    &:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4) !important;
+    }
+}
+
+/* --- כרטיס הטבלה --- */
+.table-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem;
+    overflow: hidden;
+}
+
+/* --- עיצוב הטבלה (Premium) --- */
+::ng-deep .custom-premium-table {
+    .p-datatable-thead>tr>th {
+        background: transparent !important;
+        color: #94a3b8 !important;
+        text-align: right !important;
+        padding: 1.5rem 1rem !important;
+        font-weight: 700 !important;
+        font-size: 0.9rem !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.03) !important;
+
+        &.text-center {
+            text-align: center !important;
+        }
+    }
+
+    .p-datatable-tbody>tr {
+        background: transparent !important;
+        color: white !important;
+        transition: 0.2s;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.02) !important;
+        }
+
+        td {
+            padding: 1.2rem 1rem !important;
+            border: none !important;
+            text-align: right !important;
+
+            &.text-center {
+                text-align: center !important;
+            }
         }
     }
 }
 
-/* --- סרגל בקרה עליון (זכוכית) --- */
-.controls-container {
-    margin-bottom: 2rem;
+/* --- באדג'ים ואלמנטים פנימיים --- */
+.id-badge {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: #64748b;
+    font-family: monospace;
 }
 
-.controls-glass-card {
-    display: flex;
-    justify-content: space-between;
+.gift-name-cell {
+    font-weight: 700;
+    color: white;
+}
+
+.price-tag {
+    color: #10b981;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.category-badge {
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.status-pill {
+    display: inline-flex;
     align-items: center;
-    padding: 1.5rem;
-    
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    gap: 8px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    padding: 6px 14px;
+    border-radius: 12px;
+    color: #22d3ee;
+
+    .count {
+        font-weight: 900;
+    }
+
+    .label {
+        font-size: 0.75rem;
+        opacity: 0.8;
+    }
 }
 
-.header-actions {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-    justify-content: flex-end; // מצמיד כפתור לשמאל
-}
-
-/* --- עיצוב הטבלה --- */
-.card {
-    background: rgba(15, 23, 42, 0.4);
-    border-radius: 20px;
-    padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-top: 1rem;
-}
-
-/* תמונה מוקטנת בטבלה */
-.image-thumb-wrapper {
+.img-wrapper {
     width: 50px;
     height: 50px;
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.3s;
-        &:hover { transform: scale(1.2); }
     }
 }
 
-/* --- דריסות PrimeNG (כפתורים וטבלה) --- */
-::ng-deep {
-    // כפתור הוספה זוהר
-    .premium-btn {
-        .p-button {
-            height: 46px;
-            border-radius: 14px !important;
-            background: linear-gradient(135deg, #0ea5e9, $neon-cyan) !important;
-            border: none !important;
-            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
-            font-weight: bold;
-            
-            &:hover {
-                box-shadow: 0 0 25px rgba(6, 182, 212, 0.5) !important;
-                transform: translateY(-2px);
-            }
-        }
-    }
+/* --- פעולות --- */
+.actions-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 
-    // כפתור הגרלה (זהב)
-    .lottery-btn {
-        color: #eab308 !important; 
-        &:hover { 
-            background: rgba(234, 179, 8, 0.1) !important;
-            transform: scale(1.1);
-        }
-    }
+    .action-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.05);
+        color: #cbd5e1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
 
-    // הופך את הטבלה לשקופה
-    .p-datatable {
-        .p-datatable-header,
-        .p-datatable-thead > tr > th,
-        .p-datatable-tbody > tr > td {
-            background: transparent !important;
-            color: #fff !important;
-            border-color: rgba(255, 255, 255, 0.05) !important;
+        &:hover {
+            transform: translateY(-3px);
+            color: white;
         }
 
-        .p-datatable-thead > tr > th {
-            font-size: 1.1rem;
-            color: $neon-cyan !important;
-            padding: 1.5rem 1rem;
+        &.edit:hover {
+            background: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        .p-datatable-tbody > tr {
-            transition: background 0.3s;
-            &:hover {
-                background: rgba(255, 255, 255, 0.03) !important;
-            }
+        &.lottery:hover {
+            background: #10b981;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
-    }
 
-    // אייקונים בטבלה
-    .p-button.p-button-text {
-        color: $neon-cyan !important;
-        &:hover { background: rgba(6, 182, 212, 0.1) !important; }
-    }
-    .p-button.p-button-text.p-button-danger {
-        color: #ff4d4d !important;
-        &:hover { background: rgba(255, 77, 77, 0.1) !important; }
+        &.delete:hover {
+            background: #ef4444;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
     }
 }

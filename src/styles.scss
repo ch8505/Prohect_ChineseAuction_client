@@ -5,9 +5,12 @@
 
 
 :root {
-  --neon-cyan: #06b6d4;      /* הצבע הזוהר מהלוגו */
-  --neon-blue: #3b82f6;      /* כחול עמוק יותר */
-  --bg-dark: #0f172a;        /* רקע כהה */
+  --neon-cyan: #06b6d4;
+  /* הצבע הזוהר מהלוגו */
+  --neon-blue: #3b82f6;
+  /* כחול עמוק יותר */
+  --bg-dark: #0f172a;
+  /* רקע כהה */
   --text-main: #ffffff;
 }
 
@@ -21,7 +24,123 @@ body {
 
 
 
-/* עיצוב כללי לטבלה */
-.p-datatable {
-    margin-top: 20px;
+/* משתני צבע גלובליים */
+$bg-dark: #0f172a;
+$surface-card: rgba(30, 41, 59, 0.7);
+$neon-cyan: #06b6d4;
+$neon-purple: #a78bfa;
+
+body {
+  background-color: $bg-dark;
+  color: #f1f5f9;
+  font-family: 'Heebo', sans-serif;
+  margin: 0;
+}
+
+/* --- עיצוב גלובלי לדיאלוגים --- */
+::ng-deep .custom-dialog {
+  width: 480px !important;
+  max-width: 95vw;
+
+  .p-dialog-header {
+    background: #0f172a !important;
+    color: #06b6d4 !important;
+    padding: 1.5rem 2rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .p-dialog-content {
+    background: #0f172a !important;
+    padding: 2rem !important;
+    border-radius: 0 0 16px 16px !important;
+  }
+}
+
+
+/* --- עיצוב גלובלי לדיאלוג מנצח --- */
+::ng-deep .custom-dialog {
+  width: 520px !important;
+  max-width: 95vw;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+
+  .p-dialog-header {
+    background: #0f172a !important;
+    color: #06b6d4 !important;
+    padding: 1.5rem 2rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .p-dialog-content {
+    background: #0f172a !important;
+    padding: 2rem !important;
+    border-radius: 0 0 16px 16px !important;
+  }
+}
+
+/* --- תיקון RTL ועיצוב קטגוריות --- */
+::ng-deep .p-select-overlay {
+  direction: rtl !important;
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+
+  .p-select-option {
+    text-align: right !important;
+    justify-content: flex-start !important;
+    color: #cbd5e1 !important;
+    padding: 0.8rem 1rem !important;
+
+    &:not(.p-highlight):not(.p-disabled):hover {
+      background: rgba(6, 182, 212, 0.1) !important;
+      color: #06b6d4 !important;
+    }
+
+    &.p-highlight {
+      background: #06b6d4 !important;
+      color: #0f172a !important;
+    }
+  }
+}
+
+/* --- עיצוב Tooltip גלובלי פרימיום (לכל האתר) --- */
+::ng-deep body {
+  .p-tooltip {
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+    z-index: 1100; // לוודא שזה מעל הכל
+
+    .p-tooltip-text {
+      background: #1e293b !important; // צבע הרקע הכהה שלך
+      color: #ffffff !important;
+      padding: 8px 12px !important;
+      border-radius: 8px !important;
+      font-size: 0.8rem !important;
+      position: relative;
+    }
+
+    /* עיצוב המשולש */
+    .p-tooltip-arrow {
+      display: block !important;
+      position: absolute !important;
+      left: 50% !important; // מרכוז ביחס לבועה
+      transform: translateX(-50%) !important; // פיצוי על רוחב המשולש
+      border-width: 6px 6px 0 !important; // גודל המשולש
+      border-top-color: #1e293b !important; // חייב להיות צבע הרקע של הבועה
+    }
+
+    /* תיקון מיקום ספציפי כשה-Tooltip מעל הכפתור */
+    &.p-tooltip-top {
+      margin-top: -5px !important;
+
+      .p-tooltip-arrow {
+        bottom: -6px !important; // מצמיד את המשולש לתחתית הבועה
+      }
+    }
+
+    /* הסרת ה-"צל" הלבן או הכפול ש-PrimeNG לפעמים מוסיף */
+    .p-tooltip-arrow::before {
+      display: none !important;
+    }
+  }
 }

@@ -1,46 +1,60 @@
-<div class="gift-form-container" dir="rtl">
+<div class="form-wrapper-clean" dir="rtl">
     <form [formGroup]="form" (ngSubmit)="submit()">
-
         <div class="form-grid">
-            <div class="form-field">
-                <label for="name">שם המתנה <span class="required">*</span></label>
-                <input pInputText id="name" formControlName="name" placeholder="הכנס שם..." />
+
+            <div class="field-group">
+                <label>שם המתנה <span class="required">*</span></label>
+                <input pInputText formControlName="name" placeholder="הכניסי שם מתנה..." />
                 @if (form.get('name')?.touched && form.get('name')?.invalid) {
-                <small class="error-msg">שם חובה (עד 200 תווים)</small>
+                <small class="error-hint"><i class="pi pi-exclamation-circle"></i> שדה חובה</small>
                 }
             </div>
 
-            <div class="form-row">
-                <div class="form-field half-width">
-                    <label for="ticketPrice">מחיר כרטיס</label>
-                    <p-inputNumber id="ticketPrice" formControlName="ticketPrice" mode="currency" currency="ILS"
-                        [min]="0.1"></p-inputNumber>
+            <div class="field-row">
+                <div class="field-group">
+                    <label>מחיר כרטיס</label>
+                    <p-inputNumber formControlName="ticketPrice" mode="currency" currency="ILS" locale="he-IL"
+                        placeholder="₪ 0.00"></p-inputNumber>
                 </div>
-
-                <div class="form-field half-width">
-                    <label for="category">קטגוריה</label>
-                    <p-select [options]="categories" formControlName="categoryId"
-                        optionLabel="name" optionValue="id" placeholder="בחר קטגוריה" appendTo="body"></p-select>
+                <div class="field-group">
+                    <label>קטגוריה</label>
+                    <p-select [options]="categories" formControlName="categoryId" optionLabel="name" optionValue="id"
+                        placeholder="בחרי..." appendTo="body"></p-select>
                 </div>
             </div>
 
-            <div class="form-field">
-                <label for="description">תיאור</label>
-                <input pInputText id="description" formControlName="description" />
+            <div class="field-group">
+                <label>תיאור</label>
+                <textarea pInputTextarea formControlName="description" rows="2"
+                    placeholder="ספרי קצת על המתנה..."></textarea>
             </div>
 
-            <div class="form-field">
+            <div class="field-group">
                 <label>תמונת המתנה</label>
-                <p-fileUpload mode="basic" (onSelect)="onFileSelect($event)" chooseLabel="בחר תמונה" accept="image/*"
-                    maxFileSize="1000000">
-                </p-fileUpload>
+                <div class="upload-zone" (click)="fileInput.click()"
+                    (dragover)="$event.preventDefault(); $event.stopPropagation()" (drop)="onFileDrop($event)">
+
+                    <input type="file" #fileInput (change)="onFileSelect($event)" accept="image/*"
+                        style="display: none;">
+
+                    @if (!imagePreview) {
+                    <div class="placeholder-content">
+                        <i class="pi pi-cloud-upload"></i>
+                        <span>לחצי או גררי תמונה לכאן</span>
+                    </div>
+                    } @else {
+                    <div class="preview-container">
+                        <img [src]="imagePreview" alt="preview">
+                        <div class="change-overlay">החליפי תמונה (בגרירה או לחיצה)</div>
+                    </div>
+                    }
+                </div>
             </div>
         </div>
 
         <div class="form-actions">
-            <p-button label="ביטול" icon="pi pi-times" styleClass="p-button-text p-button-secondary"
-                (click)="cancel.emit()"></p-button>
-            <p-button label="שמור מתנה" icon="pi pi-check" type="submit"></p-button>
+            <button type="button" class="btn-cancel" (click)="cancel.emit()">ביטול</button>
+            <button type="submit" class="btn-save" [disabled]="form.invalid">שמור מתנה</button>
         </div>
     </form>
 </div>

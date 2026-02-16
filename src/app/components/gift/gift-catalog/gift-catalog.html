@@ -1,60 +1,67 @@
-<div class="catalog-container">
-    <h1 class="catalog-title">קטלוג מתנות <span class="highlight">2026</span></h1>
+<div class="catalog-container" dir="rtl">
+    <header class="catalog-header">
+        <h1 class="catalog-title">נבחרת המתנות <span class="highlight">2026</span></h1>
+        <p class="catalog-subtitle">הזדמנות נדירה לזכות בפרסים שחלמת עליהם</p>
+    </header>
 
     <div class="controls-container">
         <div class="controls-glass-card">
-
             <div class="search-section">
                 <div class="input-glow-wrapper">
-                    <i class="pi pi-search search-icon"></i>
-                    <input type="text" pInputText placeholder="... חפש מתנה לפי שם או קטגוריה " [ngModel]="searchTerm()"
-                        (ngModelChange)="searchTerm.set($event)" class="modern-search" />
+                    <i class="pi pi-search"></i>
+                    <input type="text" pInputText placeholder="חפשי את הפרס הבא שלך..." [ngModel]="searchTerm()"
+                        (ngModelChange)="searchTerm.set($event)" />
                 </div>
             </div>
 
             <div class="actions-section">
                 <p-select [options]="sortOptions" (onChange)="onSortPrice($event)" optionLabel="label"
-                    optionValue="value" placeholder="מיין לפי מחיר" class="premium-select">
+                    optionValue="value" placeholder="מיון לפי מחיר" class="premium-select">
                 </p-select>
 
-                <p-button label="קטגוריות" (onClick)="onSortCategory()" [outlined]="true"
-                    class="premium-btn filter-btn">
+                <p-button label="כל הקטגוריות" (onClick)="onSortCategory()" icon="pi pi-filter" class="filter-btn">
                 </p-button>
 
                 <div class="divider"></div>
 
-                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" [text]="true" class="premium-btn reset-btn"
+                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" [text]="true" class="reset-icon-btn"
                     pTooltip="איפוס הגדרות" tooltipPosition="bottom">
                 </p-button>
             </div>
-
         </div>
     </div>
 
     <div class="gift-grid">
         @for (gift of filteredGifts(); track gift.id) {
-        <p-card [header]="gift.name" [subheader]="gift.categoryName" class="gift-card">
-            <ng-template pTemplate="header">
-                <div class="image-wrapper">
+        <div class="gift-card-wrapper">
+            <div class="gift-premium-card">
+                <div class="image-section">
                     <img [alt]="gift.name"
                         [src]="gift.imageUrl?.startsWith('http') ? gift.imageUrl : IMAGE_BASE_URL + gift.imageUrl" />
-                    <p-tag [value]="gift.ticketPrice + ' ₪'" severity="success" class="price-tag"></p-tag>
+                    <div class="price-overlay">
+                        <span class="currency">₪</span>
+                        <span class="amount">{{gift.ticketPrice}}</span>
+                    </div>
+                    <div class="category-tag">{{gift.categoryName}}</div>
                 </div>
-            </ng-template>
 
-            <p class="donor-name">תרומת: {{gift.donorName}}</p>
+                <div class="content-section">
+                    <h3 class="gift-name">{{gift.name}}</h3>
+                    <p class="donor-line">בהוקרה מאת: <span>{{gift.donorName}}</span></p>
 
-            <ng-template pTemplate="footer">
-                <div class="flex gap-3 mt-1">
-                    <p-button label="הוסף לסל" icon="pi pi-shopping-cart" class="w-full"
-                        (click)="addToCart(gift)"></p-button>
+                    <div class="card-footer">
+                        <button class="cart-btn" (click)="addToCart(gift)">
+                            <i class="pi pi-shopping-cart"></i>
+                            <span>הבטיחי את מקומך</span>
+                        </button>
+                    </div>
                 </div>
-            </ng-template>
-        </p-card>
+            </div>
+        </div>
         } @empty {
-        <div class="no-results">
+        <div class="empty-state">
             <i class="pi pi-search-minus"></i>
-            <p>לא מצאנו מתנות שתואמות לחיפוש של "{{searchTerm()}}"</p>
+            <p>לא מצאנו בדיוק את מה שחיפשת... נסי חיפוש אחר?</p>
         </div>
         }
     </div>

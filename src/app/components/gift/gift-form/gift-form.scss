@@ -1,170 +1,169 @@
-// משתנים (אותם צבעים כמו בשאר המערכת)
-$neon-cyan: #06b6d4;
-$glass-bg: rgba(255, 255, 255, 0.05);
-$border-color: rgba(255, 255, 255, 0.1);
-$text-color: #e2e8f0;
+@use "../../../../styles.scss" as *;
 
-.gift-form-container {
-    padding: 1rem;
-    direction: rtl;
-    
-    .form-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
 
-    /* --- עיצוב תוויות (Labels) --- */
-    .form-field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
 
-        label {
-            font-weight: 500;
-            color: $text-color;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-        }
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        font-weight: 600;
 
         .required {
-            color: #f43f5e; // אדום עדין
+            color: #f43f5e;
+        }
+    }
+}
+
+/* הגדרות שטוחות לאינפוטים - ללא קינונים שגויים */
+input,
+textarea,
+::ng-deep .p-inputtext,
+::ng-deep .p-select,
+::ng-deep .p-inputnumber-input {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: white !important;
+    border-radius: 10px !important;
+    padding: 0.75rem !important;
+    width: 100% !important;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+        border-color: #06b6d4 !important;
+        background: #26334d !important;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1) !important;
+    }
+}
+
+/* תיקון ספציפי ל-InputNumber ו-Select שיהיו ברוחב מלא */
+::ng-deep .p-inputnumber,
+::ng-deep .p-select {
+    width: 100% !important;
+}
+
+/* אזור העלאה */
+.upload-zone {
+    height: 120px;
+    background: #1e293b;
+    border: 2px dashed #334155;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        border-color: #06b6d4;
+        background: rgba(6, 182, 212, 0.05);
+
+        .placeholder-content {
+            color: #06b6d4;
         }
     }
 
-    .form-row {
+    .placeholder-content {
         display: flex;
-        gap: 1.5rem;
-        
-        .half-width {
-            flex: 1;
+        flex-direction: column;
+        align-items: center;
+        color: #64748b;
+
+        i {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
         }
 
-        @media (max-width: 600px) {
-            flex-direction: column;
-            gap: 1.5rem;
+        span {
+            font-size: 0.85rem;
+            font-weight: 500;
         }
     }
 
-    .error-msg {
-        color: #f43f5e;
-        font-size: 0.85rem;
-        margin-top: 0.3rem;
-        display: block;
-    }
+    .preview-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
 
-    /* --- עיצוב מודרני לשדות הקלט (Inputs) --- */
-    ::ng-deep {
-        
-        // עיצוב בסיסי לכל האינפוטים
-        .p-inputtext, 
-        .p-inputnumber-input, 
-        .p-select {
+        img {
             width: 100%;
-            background: $glass-bg !important;
-            border: 1px solid $border-color !important;
-            color: #fff !important;
-            border-radius: 12px !important;
-            padding: 0.8rem 1rem !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: inherit;
-
-            &:enabled:focus, &:enabled:hover {
-                border-color: $neon-cyan !important;
-                box-shadow: 0 0 15px rgba(6, 182, 212, 0.15) !important;
-                background: rgba(255, 255, 255, 0.08) !important;
-            }
-
-            &::placeholder {
-                color: rgba(255, 255, 255, 0.4);
-            }
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
-        // תיקון ספציפי ל-InputNumber
-        .p-inputnumber {
-            width: 100%;
-            span { width: 100%; }
-        }
-
-        // תיקון ספציפי ל-Select (Dropdown)
-        .p-select {
+        .change-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem 1rem !important; // התאמת גובה
-            
-            .p-select-label {
-                color: #fff !important;
-            }
-            
-            .p-select-dropdown {
-                color: rgba(255, 255, 255, 0.6);
-            }
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: 0.2s;
+            font-size: 0.8rem;
         }
 
-        // עיצוב הרשימה הנפתחת של ה-Select
-        .p-select-panel {
-            background: #1e293b !important;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            
-            .p-select-item {
-                color: #fff !important;
-                border-radius: 8px;
-                margin: 4px;
-                
-                &:hover, &.p-highlight {
-                    background: rgba(6, 182, 212, 0.2) !important;
-                    color: $neon-cyan !important;
-                }
-            }
+        &:hover .change-overlay {
+            opacity: 1;
+        }
+    }
+}
+
+/* כפתורים */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+    .btn-save {
+        background: #06b6d4;
+        color: #0f172a;
+        border: none;
+        padding: 0.8rem 2.5rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+
+        &:hover {
+            background: #22d3ee;
+            transform: translateY(-1px);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     }
 
-    .ltr-input {
-        direction: ltr;
-        text-align: left;
-        font-family: monospace; // כדי שכתובות URL יראו ברור
-        color: $neon-cyan !important; // צבע שונה לקישור
-    }
+    .btn-cancel {
+        background: transparent;
+        color: #94a3b8;
+        border: 1px solid #334155;
+        padding: 0.8rem 1.5rem;
+        border-radius: 10px;
 
-    /* --- כפתורים תחתונים --- */
-    .form-actions {
-        margin-top: 3rem;
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-        ::ng-deep {
-            // כפתור ביטול
-            .p-button-secondary {
-                color: #94a3b8 !important;
-                font-weight: 500;
-                
-                &:hover {
-                    color: #fff !important;
-                    background: rgba(255, 255, 255, 0.05) !important;
-                }
-            }
-
-            // כפתור שמירה (ראשי)
-            button[type="submit"] {
-                .p-button {
-                    background: linear-gradient(135deg, #0ea5e9, $neon-cyan) !important;
-                    border: none !important;
-                    padding: 0.8rem 2rem !important;
-                    border-radius: 12px !important;
-                    font-weight: bold;
-                    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
-                    
-                    &:hover {
-                        box-shadow: 0 0 25px rgba(6, 182, 212, 0.5) !important;
-                        transform: translateY(-2px);
-                    }
-                }
-            }
+        &:hover {
+            color: white;
+            border-color: #64748b;
         }
     }
 }

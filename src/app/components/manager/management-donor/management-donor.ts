@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms'; // חובה בשביל ngModel
 import { InputTextModule } from 'primeng/inputtext'; // עיצוב אינפוטים
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { TooltipModule } from 'primeng/tooltip';
+import { TagModule } from 'primeng/tag';
+import { CardModule } from 'primeng/card';
 
 import { DonorService } from '../../../services/donor-service';
 import { Donor, DonorUpsert } from '../../../models/donor';
@@ -18,7 +21,7 @@ import { Category, GiftSubmission, GiftUpsert } from '../../../models/gift';
 @Component({
   selector: 'app-management-donor',
   standalone: true,
-  imports: [GiftFormComponent, CommonModule, ButtonModule, TableModule, DialogModule, DonorForm, FormsModule, InputTextModule, IconFieldModule, InputIconModule],
+  imports: [GiftFormComponent, CommonModule, ButtonModule, TableModule, DialogModule, DonorForm, FormsModule, InputTextModule, IconFieldModule, InputIconModule , TooltipModule, TagModule , CardModule],
   templateUrl: './management-donor.html',
   styleUrl: './management-donor.scss',
 })

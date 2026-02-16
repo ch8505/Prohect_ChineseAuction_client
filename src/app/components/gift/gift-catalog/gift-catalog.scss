@@ -1,86 +1,70 @@
-// משתנים (במידה ואין גלובליים)
-$neon-cyan: #06b6d4;
-$glass-bg: rgba(15, 23, 42, 0.6);
-$glass-border: rgba(255, 255, 255, 0.1);
+@use "../../../../styles.scss" as *;
 
-.page-container {
-    direction: rtl;
-    padding: 2rem;
-    max-width: 1200px;
+.catalog-container {
+    padding: 3rem 1rem;
+    max-width: 1300px;
     margin: 0 auto;
 
-    .page-title {
+    .catalog-header {
         text-align: center;
-        color: #fff;
-        font-family: 'Orbitron', sans-serif;
-        margin-bottom: 3rem;
-        font-size: 2.5rem;
+        margin-bottom: 4rem;
 
-        .highlight {
-            color: $neon-cyan;
-            text-shadow: 0 0 15px $neon-cyan;
+        .catalog-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin: 0;
+
+            .highlight {
+                color: #06b6d4;
+                text-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            }
+        }
+
+        .catalog-subtitle {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
         }
     }
 }
 
-/* --- עיצוב סרגל הבקרה (כמו בתורמים) --- */
-.controls-container {
-    margin-bottom: 3rem;
-}
-
+/* סרגל שליטה מהודק */
 .controls-glass-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    padding: 1.5rem;
-
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(12px);
-    border: 1px solid $glass-border;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-
-    @media (max-width: 992px) {
-        flex-direction: column;
-        .search-section, .actions-section { width: 100%; }
-        .actions-section { justify-content: space-between; }
-    }
+    margin-bottom: 4rem;
 }
 
-.search-section {
-    flex: 1;
+.input-glow-wrapper {
+    position: relative;
 
-    .input-glow-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
+    i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+    }
 
-        .search-icon {
-            position: absolute;
-            right: 16px;
-            color: $neon-cyan;
-            opacity: 0.7;
-            font-size: 1.1rem;
-            z-index: 2;
-        }
+    input {
+        background: #0f172a !important;
+        border: 1px solid #334155 !important;
+        padding: 0.8rem 2.8rem 0.8rem 1rem !important;
+        border-radius: 12px;
+        width: 350px;
+        color: white;
 
-        .modern-search {
-            width: 100%;
-            height: 46px;
-            padding: 0 3rem 0 1rem !important;
-            background: rgba(0, 0, 0, 0.2) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            color: #fff !important;
-            transition: all 0.4s;
-
-            &:focus {
-                border-color: $neon-cyan !important;
-                background: rgba(0, 0, 0, 0.4) !important;
-                box-shadow: 0 0 20px rgba(6, 182, 212, 0.15) !important;
-                outline: none;
-            }
+        &:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
         }
     }
 }
@@ -88,157 +72,137 @@ $glass-border: rgba(255, 255, 255, 0.1);
 .actions-section {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
 
     .divider {
         width: 1px;
-        height: 24px;
+        height: 30px;
         background: rgba(255, 255, 255, 0.1);
-        margin: 0 0.5rem;
     }
 }
 
-/* --- עיצוב הגריד והכרטיסים --- */
+/* עיצוב הכרטיסים - הלב של הקטלוג */
 .gift-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
 }
 
-.gift-card-wrapper {
-    transition: transform 0.3s ease;
-    
+.gift-premium-card {
+    background: #1e293b;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
     &:hover {
-        transform: translateY(-10px);
-    }
-}
+        transform: translateY(-12px);
+        border-color: rgba(6, 182, 212, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 
-::ng-deep {
-    // עיצוב כרטיס ה-PrimeNG שייראה שקוף
-    .p-card {
-        background: rgba(30, 41, 59, 0.7) !important;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 16px !important;
+        .image-section img {
+            transform: scale(1.1);
+        }
+    }
+
+    .image-section {
+        position: relative;
+        height: 240px;
         overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        color: #fff !important;
-        
-        .p-card-body {
-            padding: 1.5rem;
-        }
-        
-        .p-card-content {
-            padding: 0;
-        }
-    }
 
-    // עיצוב ה-Select (Dropdown)
-    .premium-select {
-        .p-select {
-            background: rgba(0,0,0,0.2) !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            border-radius: 12px !important;
-            color: #fff !important;
-            height: 46px;
-            display: flex;
-            align-items: center;
-            
-            &:hover { border-color: $neon-cyan !important; }
-            .p-select-label { color: #fff !important; }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
         }
-    }
-    
-    // עיצוב כפתורים
-    .premium-btn {
-        .p-button {
-            height: 46px;
-            border-radius: 14px !important;
-            
-            &.p-button-outlined {
-                color: $neon-cyan !important;
-                border-color: $neon-cyan !important;
-                &:hover { background: rgba(6, 182, 212, 0.1) !important; }
+
+        .price-overlay {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 8px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #06b6d4;
+
+            .currency {
+                font-size: 0.9rem;
+                margin-left: 2px;
+            }
+
+            .amount {
+                font-size: 1.4rem;
+                font-weight: 800;
             }
         }
 
-        &.reset-btn .p-button {
-            color: #94a3b8 !important;
-            &:hover { color: #ff4d4d !important; transform: rotate(90deg); }
+        .category-tag {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(6, 182, 212, 0.9);
+            color: #0f172a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
     }
 
-    // כפתור הוספה לסל
-    .add-to-cart-btn {
-        width: 100%;
-        background: linear-gradient(135deg, #0ea5e9, $neon-cyan) !important;
-        border: none !important;
-        border-radius: 10px !important;
-        font-weight: bold !important;
-        
-        &:hover {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4) !important;
-        }
-    }
-}
-
-/* --- תוכן הכרטיס --- */
-.image-wrapper {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s;
-    }
-
-    &:hover img {
-        transform: scale(1.1);
-    }
-
-    .price-badge {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: rgba(0,0,0,0.6);
-        color: $neon-cyan;
-        padding: 5px 12px;
-        border-radius: 20px;
-        backdrop-filter: blur(4px);
-        font-weight: bold;
-        border: 1px solid $neon-cyan;
-    }
-}
-
-.card-body {
-    text-align: right;
-    margin-bottom: 1rem;
-
-    .gift-name {
-        font-size: 1.2rem;
-        margin: 0.5rem 0;
-        color: #fff;
-    }
-
-    .donor-name {
-        color: #94a3b8;
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
-    }
-
-    .category-badge {
+    .content-section {
+        padding: 1.5rem;
+        flex-grow: 1;
         display: flex;
-        justify-content: flex-end;
-    }
-}
+        flex-direction: column;
 
-.no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 4rem;
-    color: #94a3b8;
-    font-size: 1.2rem;
+        .gift-name {
+            font-size: 1.4rem;
+            margin: 0 0 0.5rem 0;
+            color: white;
+            font-weight: 700;
+        }
+
+        .donor-line {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+
+            span {
+                color: #94a3b8;
+                font-weight: 600;
+            }
+        }
+
+        .card-footer {
+            margin-top: auto;
+
+            .cart-btn {
+                width: 100%;
+                background: linear-gradient(135deg, #06b6d4, #0891b2);
+                color: #0f172a;
+                border: none;
+                padding: 1rem;
+                border-radius: 14px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                cursor: pointer;
+                transition: 0.3s;
+
+                &:hover {
+                    background: linear-gradient(135deg, #22d3ee, #06b6d4);
+                    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+                }
+            }
+        }
+    }
 }

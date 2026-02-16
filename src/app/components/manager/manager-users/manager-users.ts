@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AdminOrderService } from '../../../services/admin-order-service';
-// התיקון: מייבאים את השמות הנכונים מהקובץ שלך
 import { OrderResponseDto, OrderItemResponseDto } from '../../../models/order';
+
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 
 // ממשק עזר לטבלה המקובצת
@@ -18,7 +18,7 @@ interface CustomerGroup {
   totalItems: number;
   ordersCount: number;
   // התיקון: שימוש בטיפוס שיש לך בקובץ
-  allItems: OrderItemResponseDto[]; 
+  allItems: OrderItemResponseDto[];
 }
 
 @Component({
@@ -61,14 +61,14 @@ export class ManagerUsers implements OnInit {
         // בדיקה אם השרת מחזיר שם משתמש בתוך האובייקט (גם אם לא ב-interface)
         // אם אין שם, נציג "לקוח #123"
         const nameFromApi = (order as any).userName || (order as any).user?.name;
-        
+
         customerMap.set(order.userId, {
           userId: order.userId,
-          userName: nameFromApi || `לקוח #${order.userId}`, 
+          userName: nameFromApi || `לקוח #${order.userId}`,
           totalSpent: 0,
           totalItems: 0,
           ordersCount: 0,
-          allItems: [] 
+          allItems: []
         });
       }
 
@@ -76,7 +76,7 @@ export class ManagerUsers implements OnInit {
       const customer = customerMap.get(order.userId)!;
       customer.totalSpent += order.totalAmount;
       customer.ordersCount += 1;
-      
+
       if (order.orderItems) {
         // הוספת הפריטים למערך המרוכז של הלקוח
         customer.allItems.push(...order.orderItems);
@@ -91,8 +91,8 @@ export class ManagerUsers implements OnInit {
 
   filterCustomers() {
     const term = this.searchTerm.toLowerCase();
-    this.filteredCustomers = this.customers.filter(c => 
-      c.userName.toLowerCase().includes(term) || 
+    this.filteredCustomers = this.customers.filter(c =>
+      c.userName.toLowerCase().includes(term) ||
       c.userId.toString().includes(term)
     );
   }

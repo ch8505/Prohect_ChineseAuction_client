@@ -10,14 +10,13 @@ import { GiftFormComponent } from '../../gift/gift-form/gift-form';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
-import { Tag } from "primeng/tag";
-
+import { TooltipModule } from 'primeng/tooltip'; // חובה בשביל הבועות!
 
 
 @Component({
   selector: 'app-gift-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule, Tag],
+  imports: [CommonModule, FormsModule, GiftFormComponent, ButtonModule, DialogModule, TableModule, TooltipModule],
   templateUrl: './gift-gallery.html',
   styleUrl: './gift-gallery.scss',
 })
@@ -75,26 +74,6 @@ export class GiftGallery implements OnInit {
     this.displayDialog = true;
   }
 
-  // עדכון פונקציית השמירה
-  // onSaveGift(giftData: GiftUpsert) {
-  //     if (this.selectedGift) {
-  //         // עדכון מתנה קיימת
-  //         this.giftService.update(this.selectedGift.id, giftData).subscribe({
-  //             next: () => this.handleSuccess(),
-  //             error: (err) => console.error('שגיאה בעדכון', err)
-  //         });
-  //     } else {
-  //         // הוספת מתנה חדשה - שימוש ב-BASE_URL בשרת שלך
-
-  //         // this.giftService.add(giftData).subscribe({
-  //         //     next: () => this.handleSuccess(),
-  //         //     error: (err) => console.error('שגיאה בהוספה', err)
-  //         // });
-  //     }
-  // }
-
-  // gift-gallery.ts (או איפה שהפונקציה נמצאת)
-
   onSaveGift(event: { data: GiftUpsert; file: File | null }) {
     const currentDonorId = this.donorId();
 
@@ -131,11 +110,11 @@ export class GiftGallery implements OnInit {
     }
   }
 
-// פונקציה לדוגמה להפעלת הגרלה על מתנה מסוימת
+  // פונקציה לדוגמה להפעלת הגרלה על מתנה מסוימת
   lottery(giftId: number) {
-  console.log('מבצע הגרלה עבור מתנה:', giftId);
-  // כאן תבוא הלוגיקה של ההגרלה בהמשך
-}
+    console.log('מבצע הגרלה עבור מתנה:', giftId);
+    // כאן תבוא הלוגיקה של ההגרלה בהמשך
+  }
 }
 
 

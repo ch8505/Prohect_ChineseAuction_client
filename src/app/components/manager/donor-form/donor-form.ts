@@ -10,14 +10,9 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule],
   templateUrl: './donor-form.html',
-  styles: [`
-    .form-container { padding: 1rem; direction: rtl; }
-    .form-field { margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
-    .error-msg { color: red; font-size: 0.875rem; }
-    label { font-weight: bold; }
-  `]
+  styleUrl: './donor-form.scss' // שינוי לשימוש בקובץ ה-SCSS המעוצב
 })
+
 export class DonorForm implements OnChanges {
 
   /* ===== Inputs: יכול להיות null במקרה של הוספה חדשה ===== */

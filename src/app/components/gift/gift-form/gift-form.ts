@@ -3,16 +3,19 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Gift, GiftUpsert, Category, GiftSubmission } from '../../../models/gift'
 import { FormsModule } from '@angular/forms';
+
+// PrimeNG 20 Imports
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { SelectModule } from 'primeng/select';
+import { SelectModule } from 'primeng/select'; // בגרסה 20 זה Select במקום Dropdown
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
   selector: 'app-gift-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, InputTextModule, InputNumberModule, SelectModule, ButtonModule, FileUploadModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, InputTextModule, InputNumberModule, SelectModule, ButtonModule, FileUploadModule, TextareaModule],
   templateUrl: './gift-form.html',
   styleUrl: './gift-form.scss'
 })
@@ -25,6 +28,9 @@ export class GiftFormComponent {
   /* ===== Outputs ===== */
   // @Output() save = new EventEmitter<GiftUpsert>();
   @Output() cancel = new EventEmitter<void>();
+
+  imagePreview: string | null = null;
+  selectedFile: File | null = null;
 
   form = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(200)]),
@@ -56,20 +62,49 @@ export class GiftFormComponent {
   // שדרוג ה-Output שישלח גם את הקובץ
   @Output() save = new EventEmitter<GiftSubmission>();
 
-  selectedFile: File | null = null;
+
 
   // פונקציה לקליטת הקובץ מהרכיב
   onFileSelect(event: any) {
-    // ב-PrimeNG 18+ הקבצים נמצאים ב-currentFiles
-    this.selectedFile = event.currentFiles ? event.currentFiles[0] : event.files[0];
-    console.log('קובץ נבחר:', this.selectedFile);
+    const file = event.target.files[0];
+    if (file) {
+      this.handleFile(file);
+    }
+  }
+
+  onFileDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      if (file.type.startsWith('image/')) {
+        this.handleFile(file); // פונקציה שתטפל בקובץ (קריאה ל-FileReader)
+      }
+    }
+  }
+
+  // פונקציה משותפת לטיפול בקובץ (גם מלחיצה וגם מגרירה)
+  private handleFile(file: File) {
+    this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // פונקציה להסרת התמונה אם רוצים:
+  removeImage() {
+    this.selectedFile = null;
+    this.imagePreview = null;
   }
 
   submit() {
-      console.log('סטטוס הטופס:', this.form.status);
-      console.log('האם הטופס תקין?', this.form.valid);
-      console.log('ערכים בטופס:', this.form.value);
-      console.log('שגיאות (אם יש):', this.findInvalidControls()); 
+    console.log('סטטוס הטופס:', this.form.status);
+    console.log('האם הטופס תקין?', this.form.valid);
+    console.log('ערכים בטופס:', this.form.value);
+    console.log('שגיאות (אם יש):', this.findInvalidControls());
     if (this.form.valid) {
       // יצירת אובייקט ה-Submission שכולל את הנתונים ואת הקובץ
       const submission: GiftSubmission = {
@@ -82,20 +117,10 @@ export class GiftFormComponent {
     }
   }
 
-  // submit() {
-  //   console.log('סטטוס הטופס:', this.form.status);
-  //   console.log('האם הטופס תקין?', this.form.valid);
-  //   console.log('ערכים בטופס:', this.form.value);
-  //   console.log('שגיאות (אם יש):', this.findInvalidControls()); // פונקציית עזר למטה
 
-  //   if (this.form.valid) {
-  //     console.log('הגלריה שמעה את האירוע! הנתונים:');
-  //     this.save.emit(this.form.value as GiftUpsert);
-  //   } else {
-  //     this.form.markAllAsTouched(); // צובע באדום את מה שחסר
-  //     alert('הטופס אינו תקין, בדוק שדות חובה');
-  //   }
-  // }
+
+  // תעדכני את ה-onFileSelect הישן שלך שישתמש ב-handleFile:
+
 
   // פונקציית עזר זמנית לניפוי שגיאות - תדביקי אותה בתוך הקלאס
   findInvalidControls() {
@@ -118,5 +143,7 @@ export class GiftFormComponent {
     // 6. החזרת רשימת השמות הלא תקינים
     return invalid;
   }
+
+
 
 }
