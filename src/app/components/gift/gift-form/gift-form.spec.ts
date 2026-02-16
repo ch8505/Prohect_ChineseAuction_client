@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GiftForm } from './gift-form';
+import {GiftForm} from './gift-form'
 
 describe('GiftForm', () => {
   let component: GiftForm;

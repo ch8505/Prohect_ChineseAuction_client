@@ -24,7 +24,63 @@
 </div>
 
 <header class="navbar">
-    
+
+    <div class="logo-container" routerLink="/">
+        <i class="pi pi-box logo-icon"></i>
+        <span class="brand-name">MAGDALOR <span class="highlight">TECH</span></span>
+    </div>
+
+    <nav class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">HOME</a>
+        <a routerLink="/about" routerLinkActive="active">ABOUT</a>
+        <a routerLink="/catalog" routerLinkActive="active">CATALOG</a>
+
+        @if (isAdmin()) {
+        <div class="dropdown">
+            <a class="dropdown-trigger" routerLink="/manager" routerLinkActive="active">MANAGER</a>
+            <div class="dropdown-content">
+                <a routerLink="/manager/gifts">ניהול מתנות</a>
+                <a routerLink="/manager/donors">ניהול תורמים</a>
+                <a routerLink="/manager/raffle">ניהול הגרלה</a>
+                <a routerLink="/manager/reports">דוחות</a>
+            </div>
+        </div>
+        }
+    </nav>
+
+    <div class="actions">
+        @if (!isLoggedIn()) {
+        <a (click)="openLogin()" class="login-link" style="cursor: pointer;">LOGIN</a>
+        <a (click)="openRegister()" class="login-link" style="cursor: pointer;">REGISTER</a>
+        } @else {
+        <a (click)="logout()" class="login-link" style="cursor: pointer;"><i class="pi pi-sign-out"></i></a>
+        }
+        <div class="cart-icon" (click)="cartService.isCartVisible.set(true)">
+            <i class="pi pi-shopping-cart"></i>
+            @if(cartService.totalItemsCount() > 0) {
+            <span class="badge">{{ cartService.totalItemsCount() }}</span>
+            }
+        </div>
+        
+        <p-drawer [visible]="isAuthVisible()" (visibleChange)="isAuthVisible.set($event)" position="right"
+            [style]="{width: '400px', background: '#0f172a', color: 'white'}">
+
+            <div class="auth-container" style="padding: 20px;">
+                @if (authMode() === 'login') {
+                <app-login (onSuccess)="isAuthVisible.set(false)"
+                    (switchToRegister)="authMode.set('register')"></app-login>
+                } @else {
+                <app-register (onSuccess)="isAuthVisible.set(false)"
+                    (switchToLogin)="authMode.set('login')"></app-register>
+                }
+            </div>
+        </p-drawer>
+    </div>
+
+</header>
+
+<!-- 
+<header class="navbar">
     <div class="logo-container" routerLink="/">
         <i class="pi pi-box logo-icon"></i>
         <span class="brand-name">MAGDALOR <span class="highlight">TECH</span></span>
@@ -55,12 +111,11 @@
         } @else {
         <a (click)="logout()" class="login-link" style="cursor: pointer;"><i class="pi pi-sign-out"></i></a>
         }
-        
-        <div class="cart-wrapper" (click)="cartService.isCartVisible.set(true)">
-            <i class="pi pi-shopping-cart cart-icon"></i>
+        <div class="cart-icon" (click)="cartService.isCartVisible.set(true)">
+            <i class="pi pi-shopping-cart"></i>
             @if(cartService.totalItemsCount() > 0) {
-                <span class="cart-badge">{{ cartService.totalItemsCount() }}</span>
+            <span class="badge">{{ cartService.totalItemsCount() }}</span>
             }
         </div>
     </div>
-</header>
+</header> -->

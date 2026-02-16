@@ -15,4 +15,6 @@ export class ManagementLottery {
   lottery(){
     this.lotteryService.drawAll().subscribe();
   }
+
+  
 }

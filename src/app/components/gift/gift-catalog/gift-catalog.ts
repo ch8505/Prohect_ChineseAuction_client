@@ -19,7 +19,8 @@ import { ToastModule } from 'primeng/toast';
 })
 export class GiftCatalog {
 
-  // 
+  readonly IMAGE_BASE_URL = 'https://localhost:7006/'; 
+  
   private giftService = inject(GiftService);
   private cartService = inject(CartService);
 

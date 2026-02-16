@@ -1,5 +1,6 @@
 
-import { Component, inject, OnInit } from '@angular/core';
+
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category, Gift, GiftUpsert } from '../../../models/gift';
@@ -22,7 +23,9 @@ import { Tag } from "primeng/tag";
 })
 export class GiftGallery implements OnInit {
 
+  readonly IMAGE_BASE_URL = 'https://localhost:7006/';
 
+  donorId = signal<number>(1); //זמי!!!
   categories: Category[] = []; // משתנה לשמירת הקטגוריות
 
   ngOnInit() {
@@ -65,38 +68,51 @@ export class GiftGallery implements OnInit {
     this.selectedGift = null; // מאפסים את המתנה כדי שהטופס ייפתח ריק
     this.displayDialog = true;
   }
+
   // open dialog to edit gift
   onEdit(gift: Gift) {
-    this.selectedGift = gift;
+    this.selectedGift = { ...gift };
     this.displayDialog = true;
   }
 
-  lottery(giftId: number) {
-    console.log("פונקציית הגרלה מניהול מתנות");
-    if (confirm('האם אתה בטוח שברצונך להגריל מתנה זו?')) {
-      this.lotteryService.drawByGiftId(giftId).subscribe(() => {
-        this.listOfGifts = this.listOfGifts.filter(g => g.id !== giftId); ///לבדוק אם צריך לרענן
-      });
-    }
-  }
-
   // עדכון פונקציית השמירה
-  onSaveGift(giftData: GiftUpsert) {
+  // onSaveGift(giftData: GiftUpsert) {
+  //     if (this.selectedGift) {
+  //         // עדכון מתנה קיימת
+  //         this.giftService.update(this.selectedGift.id, giftData).subscribe({
+  //             next: () => this.handleSuccess(),
+  //             error: (err) => console.error('שגיאה בעדכון', err)
+  //         });
+  //     } else {
+  //         // הוספת מתנה חדשה - שימוש ב-BASE_URL בשרת שלך
+
+  //         // this.giftService.add(giftData).subscribe({
+  //         //     next: () => this.handleSuccess(),
+  //         //     error: (err) => console.error('שגיאה בהוספה', err)
+  //         // });
+  //     }
+  // }
+
+  // gift-gallery.ts (או איפה שהפונקציה נמצאת)
+
+  onSaveGift(event: { data: GiftUpsert; file: File | null }) {
+    const currentDonorId = this.donorId();
+
     if (this.selectedGift) {
-      // עדכון מתנה קיימת
-      this.giftService.update(this.selectedGift.id, giftData).subscribe({
+      // לוגיקה לעדכון מתנה קיימת (צריך להוסיף פונקציה כזו ב-Service שתומכת ב-FormData)
+      this.giftService.updateWithFile(this.selectedGift.id, event.data, event.file).subscribe({
         next: () => this.handleSuccess(),
-        error: (err) => console.error('שגיאה בעדכון', err)
+        error: (err) => console.error(err)
       });
     } else {
-      // הוספת מתנה חדשה - שימוש ב-BASE_URL בשרת שלך
-
-      // this.giftService.add(giftData).subscribe({
-      //     next: () => this.handleSuccess(),
-      //     error: (err) => console.error('שגיאה בהוספה', err)
-      // });
+      // הוספה
+      this.giftService.addGiftToDonor(currentDonorId, event.data, event.file).subscribe({
+        next: () => this.handleSuccess(),
+        error: (err) => console.error(err)
+      });
     }
   }
+
   private handleSuccess() {
     this.loadGifts();
     this.closeDialog();
@@ -114,6 +130,12 @@ export class GiftGallery implements OnInit {
       });
     }
   }
+
+// פונקציה לדוגמה להפעלת הגרלה על מתנה מסוימת
+  lottery(giftId: number) {
+  console.log('מבצע הגרלה עבור מתנה:', giftId);
+  // כאן תבוא הלוגיקה של ההגרלה בהמשך
+}
 }
 
 

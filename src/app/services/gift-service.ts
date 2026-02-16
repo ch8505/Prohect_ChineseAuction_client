@@ -38,41 +38,77 @@ export class GiftService {
   }
 
 
+  /** ===================== עזרים ===================== */
+  // פונקציית עזר כדי לא לשכפל קוד ביצירה ובעדכון
+  private buildFormData(giftData: GiftUpsert, file: File | null): FormData {
+    const formData = new FormData();
+
+    formData.append('Name', giftData.name);
+    formData.append('TicketPrice', giftData.ticketPrice.toString());
+    formData.append('Description', giftData.description || '');
+
+    if (giftData.categoryId) {
+      formData.append('CategoryId', giftData.categoryId.toString());
+    }
+
+    // נוסיף את הקובץ רק אם המשתמש בחר קובץ חדש
+    if (file) {
+      formData.append('ImageUrl', file);
+    }
+
+    return formData;
+  }
+
   /** ===================== ADMINE ===================== */
 
+  // הוספת מתנה
+  addGiftToDonor(donorId: number, giftData: GiftUpsert, file: File | null): Observable<any> {
+    const formData = this.buildFormData(giftData, file);
+    return this.http.post(`${this.BASE_URL}/admin/add-to-donor/${donorId}`, formData);
+  }
 
-  //  שליפת כל המתנות עבור מנהל
+  // עדכון מתנה כולל קובץ
+  updateWithFile(id: number, giftData: GiftUpsert, file: File | null): Observable<Gift> {
+    const formData = this.buildFormData(giftData, file);
+    // שימי לב: ודאי שה-API ב-C# תומך ב-PUT עם FormData, או שנו אותו ל-POST/PATCH לפי הצורך
+    return this.http.put<Gift>(`${this.BASE_URL}/${id}`, formData);
+  }
+
+  // הפונקציה הישנה - השארתי למקרה ויש לך שימוש אחר, אבל עדיף להשתמש בחדשה
+  update(id: number, gift: GiftUpsert): Observable<Gift> {
+    return this.http.put<Gift>(`${this.BASE_URL}/${id}`, gift);
+  }
+
+ //  שליפת כל המתנות עבור מנהל
   getAll(): Observable<Gift[]> {
     return this.http.get<Gift[]>(`${this.BASE_URL}/admin`);
   }
 
-
-
   //  שליפת מתנה בודדת לפי ID
   getById(id: number): Observable<Gift> {
     return this.http.get<Gift>(`${this.BASE_URL}/${id}`);
-  }
-  // !!!רצינו להעביר לתורמים
-  //  הוספת מתנה חדשה
-  // add(gift: GiftUpsert): Observable<Gift> {
-  //   return this.http.post<Gift>(`${this.BASE_URL}/admin/add-to-donor/${gift.donorId}`, gift);
-  // }
-
-  //  עדכון מתנה קיימת
-  update(id: number, gift: GiftUpsert): Observable<Gift> {
-    console.log('שולח עדכון לשרת עבור ID:', id, gift);
-    return this.http.put<Gift>(`${this.BASE_URL}/${id}`, gift);
   }
 
   //  מחיקת מתנה לפי ID
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.BASE_URL}/${id}`);
   }
+
+
+
+  
+ 
   /** ===================== תוספות של קריאות ===================== */
   //get all catergories
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`https://localhost:7006/api/Category`);
   }
+
+
+
 }
+
+
+
 
