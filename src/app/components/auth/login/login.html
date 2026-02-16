@@ -1,67 +1,58 @@
-<div class="login-container">
-  <div class="login-wrapper">
-    <p-card class="login-card">
-      <ng-template pTemplate="header">
-        <div class="card-header">
-          <h1 class="welcome-title">ברוכים הבאים 👋</h1>
-          <p class="welcome-subtitle">התחברו לחשבונכם</p>
+<div class="auth-container" dir="rtl">
+    <div class="auth-header">
+        <i class="pi pi-lock-open tech-icon"></i>
+        <h2>כניסה למערכת</h2>
+        <p>התחברי כדי להמשיך ברכישה</p>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="auth-form">
+
+        <!-- אימייל -->
+        <div class="input-field-group">
+            <label>אימייל</label>
+
+            <p-iconfield iconPosition="right">
+                <input pInputText
+                       type="email"
+                       name="email"
+                       [(ngModel)]="credentials.email"
+                       placeholder="דוא״ל שלך"
+                       required
+                       email />
+
+                <p-inputicon class="pi pi-envelope"></p-inputicon>
+            </p-iconfield>
         </div>
-      </ng-template>
 
-      <div class="form-body">
-        <!-- הודעת שגיאה -->
-        @if (errorMessage()) {
-          <p-message severity="error" [text]="errorMessage()" class="error-message"></p-message>
-        }
+        <!-- סיסמה (בלי IconField!) -->
+        <div class="input-field-group">
+            <label>סיסמה</label>
 
-        <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="login-form">
-          <!-- שדה אימייל -->
-          <div class="form-group">
-            <label class="form-label">📧 אימייל</label>
-            <input 
-              pInputText
-              type="email" 
-              name="email" 
-              [(ngModel)]="credentials.email" 
-              placeholder="הזן את כתובת האימייל שלך"
-              required 
-              email
-              class="form-input">
-          </div>
-
-          <!-- שדה סיסמה -->
-          <div class="form-group">
-            <label class="form-label">🔐 סיסמה</label>
-            <p-password
-              name="password"
-              [(ngModel)]="credentials.password"
-              placeholder="הזן את הסיסמה שלך"
-              [toggleMask]="true"
-              inputStyleClass="w-full"
-              required>
+            <p-password name="password"
+                        [(ngModel)]="credentials.password"
+                        [toggleMask]="true"
+                        [feedback]="false"
+                        placeholder="סיסמה"
+                        required
+                        styleClass="w-full">
             </p-password>
-          </div>
+        </div>
 
-          <!-- כפתורים -->
-          <div class="button-group">
-            <p-button 
-              label="התחבר"
-              icon="pi pi-sign-in"
-              [loading]="isLoading()"
-              [disabled]="!loginForm.valid || isLoading()"
-              (onClick)="onLogin()"
-              class="w-full login-btn">
+        <p-button label="התחברות"
+                  icon="pi pi-sign-in"
+                  type="submit"
+                  [loading]="isLoading()"
+                  [disabled]="!loginForm.valid"
+                  styleClass="submit-button">
+        </p-button>
+
+        <div class="auth-footer">
+            <span>עדיין לא רשומה?</span>
+            <p-button label="ליצירת חשבון חדש"
+                      variant="text"
+                      (onClick)="switchToRegister.emit()">
             </p-button>
-          </div>
+        </div>
 
-          <!-- קישור להרשמה -->
-          <div class="signup-link">
-            <p>עדיין אין חשבון? 
-              <a href="/register" class="link">הירשם כאן</a>
-            </p>
-          </div>
-        </form>
-      </div>
-    </p-card>
-  </div>
+    </form>
 </div>

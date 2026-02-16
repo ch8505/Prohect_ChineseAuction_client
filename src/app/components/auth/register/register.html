@@ -1,110 +1,76 @@
-<div class="register-container">
-  <div class="register-wrapper">
-    <p-card class="register-card">
-      <ng-template pTemplate="header">
-        <div class="card-header">
-          <h1 class="welcome-title">הצטרפו אלינו 🎉</h1>
-          <p class="welcome-subtitle">צרו חשבון חדש</p>
-        </div>
-      </ng-template>
-
-      <div class="form-body">
-        <!-- הודעת הצלחה -->
-        @if (successMessage()) {
-          <p-message severity="success" [text]="successMessage()" class="success-message"></p-message>
-        }
-
-        <!-- הודעת שגיאה -->
-        @if (errorMessage()) {
-          <p-message severity="error" [text]="errorMessage()" class="error-message"></p-message>
-        }
-
-        <form #regForm="ngForm" (ngSubmit)="onRegister()" class="register-form">
-          <!-- שדה שם -->
-          <div class="form-group">
-            <label class="form-label">👤 שם מלא</label>
-            <input 
-              pInputText
-              type="text" 
-              name="name" 
-              [(ngModel)]="user.name" 
-              placeholder="הזן את שמך המלא"
-              required
-              class="form-input">
-          </div>
-
-          <!-- שדה אימייל -->
-          <div class="form-group">
-            <label class="form-label">📧 אימייל</label>
-            <input 
-              pInputText
-              type="email" 
-              name="email" 
-              [(ngModel)]="user.email" 
-              placeholder="הזן את כתובת האימייל שלך"
-              required 
-              email
-              class="form-input">
-          </div>
-
-          <!-- שדה טלפון -->
-          <div class="form-group">
-            <label class="form-label">📱 טלפון</label>
-            <p-inputMask 
-              name="phone"
-              [(ngModel)]="user.phone"
-              mask="(999) 999-9999"
-              placeholder="(050) 123-4567"
-              class="form-input">
-            </p-inputMask>
-          </div>
-
-          <!-- שדה סיסמה -->
-          <div class="form-group">
-            <label class="form-label">🔐 סיסמה</label>
-            <p-password
-              name="password"
-              [(ngModel)]="user.password"
-              placeholder="הזן סיסמה חזקה"
-              [toggleMask]="true"
-              inputStyleClass="w-full"
-              required>
-            </p-password>
-          </div>
-
-          <!-- שדה אישור סיסמה -->
-          <div class="form-group">
-            <label class="form-label">✔️ אישור סיסמה</label>
-            <p-password
-              name="confirmPassword"
-              [(ngModel)]="confirmPassword"
-              placeholder="חזור על הסיסמה"
-              [toggleMask]="true"
-              inputStyleClass="w-full"
-              required>
-            </p-password>
-          </div>
-
-          <!-- כפתורים -->
-          <div class="button-group">
-            <p-button 
-              label="הירשם"
-              icon="pi pi-user-plus"
-              [loading]="isLoading()"
-              [disabled]="!regForm.valid || isLoading()"
-              (onClick)="onRegister()"
-              class="w-full register-btn">
-            </p-button>
-          </div>
-
-          <!-- קישור להתחברות -->
-          <div class="login-link">
-            <p>כבר יש לך חשבון? 
-                <a (click)="switchToLogin.emit()" style="cursor: pointer;" class="link">התחבר כאן</a>
-            </p>
-        </div>
-        </form>
-      </div>
-    </p-card>
+<div class="auth-container" dir="rtl">
+  <div class="auth-header">
+    <i class="pi pi-user-plus tech-icon"></i>
+    <h2>הצטרפות ל-Magdalor</h2>
+    <p>צרו חשבון והתחילו ברכישה</p>
   </div>
+
+  @if (successMessage()) {
+  <p-message severity="success" [text]="successMessage()" class="w-full mb-4" variant="simple">
+  </p-message>
+  }
+
+  @if (errorMessage()) {
+  <p-message severity="error" [text]="errorMessage()" class="w-full mb-4" variant="simple">
+  </p-message>
+  }
+
+  <form #regForm="ngForm" (ngSubmit)="onRegister()" class="auth-form">
+
+    <!-- שם -->
+    <div class="input-field-group">
+      <label>שם מלא</label>
+      <p-iconfield iconPosition="right">
+        <input pInputText name="name" [(ngModel)]="user.name" placeholder="ישראל ישראלי" required />
+        <p-inputicon class="pi pi-user"></p-inputicon>
+      </p-iconfield>
+    </div>
+
+    <!-- אימייל -->
+    <div class="input-field-group">
+      <label>אימייל</label>
+      <p-iconfield iconPosition="right">
+        <input pInputText type="email" name="email" [(ngModel)]="user.email" placeholder="example@mail.com" required
+          email />
+        <p-inputicon class="pi pi-envelope"></p-inputicon>
+      </p-iconfield>
+    </div>
+
+    <!-- טלפון -->
+    <div class="input-field-group">
+      <label>טלפון</label>
+      <p-iconfield iconPosition="right">
+        <p-inputmask name="phone" [(ngModel)]="user.phone" mask="999-9999999" placeholder="050-0000000"
+          styleClass="w-full">
+        </p-inputmask>
+        <p-inputicon class="pi pi-phone"></p-inputicon>
+      </p-iconfield>
+    </div>
+
+    <!-- סיסמה -->
+   <div class="input-field-group">
+  <label>סיסמה</label>
+  <p-password
+    name="password"
+    [(ngModel)]="user.password"
+    [toggleMask]="true"
+    [feedback]="false"
+    placeholder="מינימום 6 תווים"
+    required
+    styleClass="w-full custom-password">
+  </p-password>
+</div>
+
+    <p-button label="אישור והרשמה" icon="pi pi-check" type="submit" [loading]="isLoading()" [disabled]="!regForm.valid"
+      styleClass="submit-button p-button-rounded p-button-info">
+    </p-button>
+
+
+    <div class="auth-footer">
+      <span>כבר יש לך חשבון?</span>
+      <p-button label="חזרה להתחברות" variant="text" (onClick)="switchToLogin.emit()">
+      </p-button>
+    </div>
+
+  </form>
 </div>

@@ -1,14 +1,6 @@
 <div class="page-container">
     <h1 class="page-title">ניהול <span class="highlight">מתנות</span></h1>
 
-    <div class="controls-container">
-        <div class="controls-glass-card">
-            <div class="header-actions">
-                <p-button label="הוספת מתנה חדשה" icon="pi pi-plus" (click)="onAdd()" class="premium-btn"></p-button>
-            </div>
-        </div>
-    </div>
-
     <div class="card">
         <p-table [value]="listOfGifts" class="p-datatable-striped" [tableStyle]="{'min-width': '60rem'}">
             <ng-template pTemplate="header">

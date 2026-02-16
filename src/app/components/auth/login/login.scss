@@ -1,185 +1,114 @@
-.login-container {
-  direction: rtl;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-  .login-wrapper {
-    width: 100%;
-    max-width: 450px;
-
-    .login-card {
-      background: rgba(15, 23, 42, 0.8) !important;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(6, 182, 212, 0.2) !important;
-      border-radius: 15px !important;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-
-      .card-header {
-        background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
-        padding: 2rem !important;
-        border-radius: 15px 15px 0 0 !important;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
-
-        .welcome-title {
-          margin: 0;
-          font-size: 2rem;
-          font-weight: 700;
-          color: #fff;
-          letter-spacing: 0.5px;
-        }
-
-        .welcome-subtitle {
-          margin: 0.5rem 0 0 0;
-          font-size: 1rem;
-          color: rgba(255, 255, 255, 0.9);
-          font-weight: 300;
-        }
-      }
-    }
-  }
-}
-
-.form-body {
-  padding: 2.5rem 2rem;
-
-  .error-message {
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-
-    :deep(.p-message-text) {
-      direction: rtl;
-      text-align: right;
-    }
-  }
-}
-
-.login-form {
+.auth-container {
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    .form-label {
-      color: #e2e8f0;
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-input,
-    :deep(.p-inputtext),
-    :deep(.p-password-input) {
-      background: rgba(30, 41, 59, 0.6) !important;
-      border: 1.5px solid rgba(6, 182, 212, 0.3) !important;
-      color: #fff !important;
-      padding: 0.75rem 1rem !important;
-      border-radius: 8px !important;
-      font-size: 0.95rem !important;
-      transition: all 0.3s ease !important;
-
-      &:focus,
-      &:focus-visible {
-        border-color: #06b6d4 !important;
-        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1) !important;
-        outline: none !important;
-        background: rgba(30, 41, 59, 0.8) !important;
-      }
-
-      &::placeholder {
-        color: #94a3b8 !important;
-      }
-    }
-  }
-
-  .button-group {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-
-    :deep(.p-button) {
-      padding: 0.75rem 1.5rem !important;
-      border-radius: 8px !important;
-      font-size: 1rem !important;
-      font-weight: 600 !important;
-      transition: all 0.3s ease !important;
-    }
-
-    .login-btn {
-      background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%) !important;
-      border: none !important;
-      color: #fff !important;
-      box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3) !important;
-
-      &:hover:not(:disabled) {
-        box-shadow: 0 12px 30px rgba(6, 182, 212, 0.5) !important;
-        transform: translateY(-2px);
-      }
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  .signup-link {
+  .auth-header {
     text-align: center;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(6, 182, 212, 0.2);
+
+    .tech-icon {
+      font-size: 2.5rem;
+      color: #06b6d4;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 1.6rem;
+    }
 
     p {
-      margin: 0;
-      color: #cbd5e1;
+      color: #94a3b8;
       font-size: 0.9rem;
+      margin-top: 8px;
+    }
+  }
 
-      .link {
-        color: #06b6d4;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 
-        &:hover {
-          color: #0ea5e9;
-          text-decoration: underline;
-        }
+    .input-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        color: #cbd5e1;
+        font-size: 0.85rem;
+        padding-right: 4px;
       }
     }
   }
-}
 
-@media (max-width: 668px) {
-  .login-container {
+  /* PrimeNG Overrides */
+  ::ng-deep {
+
+    .p-iconfield,
+    .p-password,
+    .p-password-input {
+      width: 100% !important;
+    }
+
+    .p-inputtext,
+    .p-password-input {
+      background: rgba(30, 41, 59, 0.7) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: 10px !important;
+      color: white !important;
+      padding: 0.8rem 2.8rem 0.8rem 1rem !important;
+
+      &:focus {
+        border-color: #06b6d4 !important;
+        box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2) !important;
+      }
+    }
+
+    /* אייקון אימייל */
+    .p-iconfield .p-inputicon {
+      right: 1rem !important;
+      left: auto !important;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    /* אייקון עין בסיסמה */
+    .p-password .p-password-toggle-mask {
+      right: 1rem !important;
+      left: auto !important;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+    border: none;
+    border-radius: 10px;
     padding: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all 0.2s ease;
 
-    .login-wrapper {
-      max-width: 100%;
-
-      .login-card {
-        :deep(.p-card-body) {
-          padding: 1.5rem !important;
-        }
-      }
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
     }
   }
 
-  .form-body {
-    padding: 1.5rem 1rem;
-  }
-
-  .login-form {
-    gap: 1rem;
+  .auth-footer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
   }
 }
