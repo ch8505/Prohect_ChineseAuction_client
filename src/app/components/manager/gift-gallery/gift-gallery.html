@@ -18,8 +18,8 @@
             <ng-template pTemplate="body" let-gift>
                 <tr>
                     <td>
-                        <img [src]="gift.imageUrl ? IMAGE_BASE_URL + gift.imageUrl : '/images/default-gift.png'"
-                            [alt]="gift.name" width="50" height="50" class="shadow-2 border-round"
+                        <img [src]="gift.imageUrl?.startsWith('http') ? gift.imageUrl : IMAGE_BASE_URL + gift.imageUrl"
+                            width="50" height="50" [alt]="gift.name" class="shadow-2 border-round"
                             style="object-fit: cover;" />
                     </td>
 

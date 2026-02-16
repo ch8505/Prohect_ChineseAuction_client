@@ -7,7 +7,7 @@
             <div class="search-section">
                 <div class="input-glow-wrapper">
                     <i class="pi pi-search search-icon"></i>
-                    <input type="text" pInputText placeholder="חפש מתנה..." [ngModel]="searchTerm()"
+                    <input type="text" pInputText placeholder="... חפש מתנה לפי שם או קטגוריה " [ngModel]="searchTerm()"
                         (ngModelChange)="searchTerm.set($event)" class="modern-search" />
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <ng-template pTemplate="header">
                 <div class="image-wrapper">
                     <img [alt]="gift.name"
-                        [src]="gift.imageUrl ? IMAGE_BASE_URL + gift.imageUrl : '/images/default-gift.png'" />
+                        [src]="gift.imageUrl?.startsWith('http') ? gift.imageUrl : IMAGE_BASE_URL + gift.imageUrl" />
                     <p-tag [value]="gift.ticketPrice + ' ₪'" severity="success" class="price-tag"></p-tag>
                 </div>
             </ng-template>

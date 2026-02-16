@@ -36,7 +36,7 @@ export class GiftFormComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     // איפוס חובה של הקובץ בכל פעם שהטופס מוצג מחדש!
-    this.selectedFile = null; 
+    this.selectedFile = null;
 
     if (this.giftToEdit) {
       this.form.patchValue({
@@ -49,7 +49,7 @@ export class GiftFormComponent {
     } else {
       this.form.reset();
       // הגדרת ערכי ברירת מחדל לאחר איפוס
-      this.form.patchValue({ ticketPrice: 0 }); 
+      this.form.patchValue({ ticketPrice: 0 });
     }
   }
 
@@ -66,6 +66,10 @@ export class GiftFormComponent {
   }
 
   submit() {
+      console.log('סטטוס הטופס:', this.form.status);
+      console.log('האם הטופס תקין?', this.form.valid);
+      console.log('ערכים בטופס:', this.form.value);
+      console.log('שגיאות (אם יש):', this.findInvalidControls()); 
     if (this.form.valid) {
       // יצירת אובייקט ה-Submission שכולל את הנתונים ואת הקובץ
       const submission: GiftSubmission = {

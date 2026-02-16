@@ -74,7 +74,7 @@ export interface GiftUpsert {
   ticketPrice: number;
   description?: string;
   // imageUrl?: string;
-  categoryId?: number;
+  categoryId: number;
 }
 
 /* ========= Dropdowns ========= */

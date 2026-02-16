@@ -44,17 +44,20 @@ export class GiftService {
     const formData = new FormData();
 
     formData.append('Name', giftData.name);
-    formData.append('TicketPrice', giftData.ticketPrice.toString());
     formData.append('Description', giftData.description || '');
+    formData.append('TicketPrice', giftData.ticketPrice.toString());
 
-    if (giftData.categoryId) {
-      formData.append('CategoryId', giftData.categoryId.toString());
+    if (file && file instanceof File) {
+      formData.append('ImageUrl', file, file.name);
     }
 
-    // נוסיף את הקובץ רק אם המשתמש בחר קובץ חדש
-    if (file) {
-      formData.append('ImageUrl', file);
-    }
+    // שליחה מפורשת של ה-ID כמספר
+    // const categoryId = giftData.categoryId;
+    formData.append('CategoryId', giftData.categoryId.toString());
+
+
+
+
 
     return formData;
   }
@@ -70,16 +73,15 @@ export class GiftService {
   // עדכון מתנה כולל קובץ
   updateWithFile(id: number, giftData: GiftUpsert, file: File | null): Observable<Gift> {
     const formData = this.buildFormData(giftData, file);
-    // שימי לב: ודאי שה-API ב-C# תומך ב-PUT עם FormData, או שנו אותו ל-POST/PATCH לפי הצורך
     return this.http.put<Gift>(`${this.BASE_URL}/${id}`, formData);
   }
 
   // הפונקציה הישנה - השארתי למקרה ויש לך שימוש אחר, אבל עדיף להשתמש בחדשה
-  update(id: number, gift: GiftUpsert): Observable<Gift> {
-    return this.http.put<Gift>(`${this.BASE_URL}/${id}`, gift);
-  }
+  // update(id: number, gift: GiftUpsert): Observable<Gift> {
+  //   return this.http.put<Gift>(`${this.BASE_URL}/${id}`, gift);
+  // }
 
- //  שליפת כל המתנות עבור מנהל
+  //  שליפת כל המתנות עבור מנהל
   getAll(): Observable<Gift[]> {
     return this.http.get<Gift[]>(`${this.BASE_URL}/admin`);
   }
@@ -96,8 +98,8 @@ export class GiftService {
 
 
 
-  
- 
+
+
   /** ===================== תוספות של קריאות ===================== */
   //get all catergories
 
