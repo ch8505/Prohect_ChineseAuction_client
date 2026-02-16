@@ -8,6 +8,8 @@ import { ManagementDonor } from './components/manager/management-donor/managemen
 import { Checkout } from './components/cart/checkout/checkout';
 import { ManagerUsers } from './components/manager/manager-users/manager-users';
 import { ManagementLottery } from './components/manager/management-lottery/management-lottery';
+import { AdminDashboard } from './components/manager/admin-dashboard/admin-dashboard';
+import { adminGuard } from './services/auth.guard';
  // <--- תוודאי שהייבוא נכון
 export const routes: Routes = [
     { path: '', component: Home }, 
@@ -17,12 +19,13 @@ export const routes: Routes = [
      { path: 'checkout', component: Checkout },
     // הגדרת נתיבי ניהול (Manager)
     { 
-        path: 'manager', 
+        path: 'manager',
+        canActivate: [adminGuard],
         children: [
             { path: '', component: GiftGallery }, // ברירת מחדל לניהול מתנות
             { path: 'gifts', component: GiftGallery }, // ניהול מתנות
             { path: 'donors', component: ManagementDonor },   // ניהול תורמים
-            { path: 'raffle', component: ManagementLottery },   // זמני: הפניה להום עד שייבנה
+            { path: 'raffle', component: AdminDashboard },   // זמני: הפניה להום עד שייבנה
             { path: 'reports', component: ManagerUsers } ,
          // זמני: הפניה להום עד שייבנה
         ]
