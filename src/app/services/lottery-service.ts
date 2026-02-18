@@ -13,11 +13,16 @@ export class LotterySerice {
   private http = inject(HttpClient);
 
   drawByGiftId(id: number): Observable<WinnerByGift> {
-    return this.http.post<WinnerByGift>(`${this.BASE_URL}/draw/${id}`,{});
+    console.log("שולח לשרת להגריל מתנה ", id);
+    console.log(`${this.BASE_URL}/draw/${id}`, {});
+
+
+    return this.http.post<WinnerByGift>(`${this.BASE_URL}/draw/${id}`, {});
   }
+
   //draw all
   drawAll(): Observable<WinnerByGift[]> {
     return this.http.post<WinnerByGift[]>(`${this.BASE_URL}/draw-all`, {});
   }
-  
+
 }

@@ -1,20 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
-/* ייבוא פונט טכנולוגי (Orbitron ללוגו, Heebo לטקסט רגיל) */
+/* --- Gift Store 2026 - Global Stylesheet (Clean & Professional) --- */
+
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Heebo:wght@300;400;700&display=swap');
 @import "primeicons/primeicons.css";
 
-
 :root {
   --neon-cyan: #06b6d4;
-  /* הצבע הזוהר מהלוגו */
-  --neon-blue: #3b82f6;
-  /* כחול עמוק יותר */
   --bg-dark: #0f172a;
-  /* רקע כהה */
+  --surface-card: #1e293b;
   --text-main: #ffffff;
+  --text-muted: #94a3b8;
 }
 
+/* 1. הגדרות בסיס - עברית ו-RTL חובה */
 body {
+  direction: rtl !important;
+  text-align: right !important;
   background-color: var(--bg-dark);
   color: var(--text-main);
   font-family: 'Heebo', sans-serif;
@@ -22,125 +22,212 @@ body {
   padding: 0;
 }
 
-
-
-/* משתני צבע גלובליים */
-$bg-dark: #0f172a;
-$surface-card: rgba(30, 41, 59, 0.7);
-$neon-cyan: #06b6d4;
-$neon-purple: #a78bfa;
-
-body {
-  background-color: $bg-dark;
-  color: #f1f5f9;
-  font-family: 'Heebo', sans-serif;
-  margin: 0;
+.pi {
+  direction: ltr !important;
+  display: inline-block;
 }
 
-/* --- עיצוב גלובלי לדיאלוגים --- */
-::ng-deep .custom-dialog {
-  width: 480px !important;
-  max-width: 95vw;
+/* 2. מערכת כפתורים גלובלית (מעוגלים ומודרניים) */
 
-  .p-dialog-header {
-    background: #0f172a !important;
-    color: #06b6d4 !important;
-    padding: 1.5rem 2rem !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
+button,
+.p-button {
+  font-family: 'Heebo', sans-serif !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  font-weight: 700 !important;
+}
 
-  .p-dialog-content {
-    background: #0f172a !important;
-    padding: 2rem !important;
-    border-radius: 0 0 16px 16px !important;
+/* כפתור ראשי */
+.btn-primary,
+.p-confirm-dialog-accept.p-button,
+.checkout-btn {
+  background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+  color: #0f172a !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3) !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.5) !important;
   }
 }
 
+/* 3. עיצוב הדיאלוגים והסל (Drawer) - ניקוי האיקסים והפינות */
+::ng-deep {
 
-/* --- עיצוב גלובלי לדיאלוג מנצח --- */
-::ng-deep .custom-dialog {
-  width: 520px !important;
-  max-width: 95vw;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 16px !important;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+  .p-dialog,
+  .p-drawer {
+    background: var(--surface-card) !important;
+    border: 1px solid rgba(6, 182, 212, 0.2) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 20px !important;
+    direction: rtl !important;
+    /* מוודא עברית בפנים */
 
-  .p-dialog-header {
-    background: #0f172a !important;
-    color: #06b6d4 !important;
-    padding: 1.5rem 2rem !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* עיצוב ה-Header - מניעת דחיסות */
+    .p-dialog-header,
+    .p-drawer-header {
+      padding: 1.5rem 2rem !important;
+      color: var(--neon-cyan) !important;
+      background: transparent !important;
+      display: flex !important;
+      flex-direction: row-reverse !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+
+      .p-dialog-title,
+      .header-text {
+        font-family: 'Orbitron', sans-serif !important;
+        color: var(--neon-cyan) !important;
+        font-size: 1.2rem !important;
+        margin: 0 !important;
+      }
+    }
+
+    /* ניקוי האיקס המכוער (הריבוע הכחול בתמונה שלך) */
+    .p-dialog-header-icon,
+    .p-drawer-close-button,
+    .p-dialog-header-close {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      color: var(--neon-cyan) !important;
+      width: 32px !important;
+      height: 32px !important;
+      border-radius: 50% !important;
+      transition: 0.3s;
+      margin-left: 0 !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      /* מבטל פדינג שמזיז אותו */
+      margin: 0 !important;
+      /* מונע ממנו להידבק לקצה */
+
+
+      &:hover {
+        background: rgba(6, 182, 212, 0.1) !important;
+        /* רק הבהוב קל בנגיעה */
+        // transform: rotate(90deg);
+      }
+
+      /* ביטול ה-Focus Ring של PrimeNG */
+      &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+    }
+
+    .p-dialog-content,
+    .p-drawer-content {
+      padding: 1.5rem 2rem !important;
+      background: transparent !important;
+      color: var(--text-main) !important;
+      text-align: right !important;
+    }
   }
 
-  .p-dialog-content {
-    background: #0f172a !important;
-    padding: 2rem !important;
-    border-radius: 0 0 16px 16px !important;
+  /* טשטוש הרקע */
+  .p-component-overlay {
+    backdrop-filter: blur(8px) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
   }
 }
 
-/* --- תיקון RTL ועיצוב קטגוריות --- */
+/* --- סידור פוטר הדיאלוג (Confirm Dialog וכדומה) --- */
+/* בתוך styles.scss - עדכון אזור הדיאלוגים */
+::ng-deep {
+  .p-dialog-footer {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1.5rem !important; // הגדלת המרווח בין הכפתורים
+    padding: 2rem !important; // יותר אוויר מסביב
+    background: transparent !important;
+
+    .p-button {
+      margin: 0 !important;
+      min-width: 160px !important; // הגדלת רוחב המינימום לכפתור נוכח
+      padding: 0.8rem 1.5rem !important; // הוספת Padding פנימי לנפח
+      font-size: 1rem !important;
+      display: flex !important;
+      justify-content: center !important;
+      border-radius: 14px !important; // עיגול מעט יותר מודרני
+    }
+
+    /* עיצוב כפתור הביטול (Reject) - שיהיה קיים אבל פחות מודגש מהראשי */
+    .p-confirm-dialog-reject {
+      background: rgba(148, 163, 184, 0.1) !important; // רקע אפרפר שקוף
+      color: var(--text-muted) !important;
+      border: 1px solid rgba(148, 163, 184, 0.3) !important;
+      order: 2;
+
+      &:hover {
+        background: rgba(148, 163, 184, 0.2) !important;
+        color: var(--text-main) !important;
+      }
+    }
+
+    /* כפתור האישור (Accept) - כבר מוגדר כ-btn-primary אבל נוודא סדר */
+    .p-confirm-dialog-accept {
+      order: 1;
+    }
+  }
+}
+
+/* 4. תיקון ל-Select (קטגוריות) */
 ::ng-deep .p-select-overlay {
   direction: rtl !important;
-  background: #1e293b !important;
-  border: 1px solid #334155 !important;
 
   .p-select-option {
     text-align: right !important;
     justify-content: flex-start !important;
-    color: #cbd5e1 !important;
-    padding: 0.8rem 1rem !important;
-
-    &:not(.p-highlight):not(.p-disabled):hover {
-      background: rgba(6, 182, 212, 0.1) !important;
-      color: #06b6d4 !important;
-    }
-
-    &.p-highlight {
-      background: #06b6d4 !important;
-      color: #0f172a !important;
-    }
   }
 }
 
-/* --- עיצוב Tooltip גלובלי פרימיום (לכל האתר) --- */
 ::ng-deep body {
   .p-tooltip {
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
-    z-index: 1100; // לוודא שזה מעל הכל
+    padding: 0 !important;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    pointer-events: none;
+    /* שלא יפריע לעכבר */
 
     .p-tooltip-text {
-      background: #1e293b !important; // צבע הרקע הכהה שלך
-      color: #ffffff !important;
-      padding: 8px 12px !important;
-      border-radius: 8px !important;
-      font-size: 0.8rem !important;
+      background: #1e293b !important; // צבע הרקע שלך
+      color: rgba(255, 255, 255, 0.95) !important;
+      border: none !important; // בלי הגבול הלבן!
+      font-weight: 500 !important;
+      font-size: 0.8rem !important; // קצת יותר קטן
+      padding: 6px 10px !important; // פחות נפוח
+      border-radius: 6px !important;
       position: relative;
+      z-index: 2;
     }
 
-    /* עיצוב המשולש */
-    .p-tooltip-arrow {
-      display: block !important;
-      position: absolute !important;
-      left: 50% !important; // מרכוז ביחס לבועה
-      transform: translateX(-50%) !important; // פיצוי על רוחב המשולש
-      border-width: 6px 6px 0 !important; // גודל המשולש
-      border-top-color: #1e293b !important; // חייב להיות צבע הרקע של הבועה
-    }
-
-    /* תיקון מיקום ספציפי כשה-Tooltip מעל הכפתור */
     &.p-tooltip-top {
-      margin-top: -5px !important;
+      margin-top: -6px !important; // מרחק קטן יותר מהכפתור
 
       .p-tooltip-arrow {
-        bottom: -6px !important; // מצמיד את המשולש לתחתית הבועה
+        /* מעלים את החץ המובנה של פריים כדי ליצור אחד נקי */
+        display: none !important;
       }
-    }
 
-    /* הסרת ה-"צל" הלבן או הכפול ש-PrimeNG לפעמים מוסיף */
-    .p-tooltip-arrow::before {
-      display: none !important;
+      /* חץ נקי שיוצא מהבועה באותו צבע */
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #1e293b;
+        z-index: 3;
+      }
     }
   }
 }
+
+
