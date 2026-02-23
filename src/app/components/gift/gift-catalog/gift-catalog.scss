@@ -1,87 +1,154 @@
 @use "../../../../styles.scss" as *;
 
 .catalog-container {
-    padding: 3rem 1rem;
-    max-width: 1300px;
+    padding: 2rem 1rem;
+    max-width: 1400px;
     margin: 0 auto;
 
     .catalog-header {
         text-align: center;
-        margin-bottom: 4rem;
+        margin-bottom: 3.5rem;
 
         .catalog-title {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 900;
-            letter-spacing: -1px;
-            margin: 0;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
 
             .highlight {
-                color: #06b6d4;
+                color: var(--neon-cyan);
                 text-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
             }
         }
 
         .catalog-subtitle {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
         }
     }
 }
 
-/* סרגל שליטה מהודק */
-.controls-glass-card {
-    background: rgba(30, 41, 59, 0.4);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    padding: 1.2rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
+.controls-wrapper {
     margin-bottom: 4rem;
+
+    .search-bar-container {
+        background: rgba(30, 41, 59, 0.4);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 0.8rem 1.5rem;
+        display: flex;
+        flex-direction: row; // תצוגה אופקית
+        align-items: center;
+        gap: 1.2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+        @media (max-width: 992px) {
+            flex-direction: column-reverse; // בטלפון החיפוש יהיה למעלה
+            align-items: stretch;
+        }
+    }
 }
 
-.input-glow-wrapper {
+/* 1. החיפוש - מתרחב למקסימום */
+.search-input-group {
     position: relative;
+    flex: 1; // לוקח את כל המקום הפנוי
+    min-width: 300px;
 
-    i {
+    input {
+        width: 100% !important;
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.8rem 3rem 0.8rem 1rem !important; // פדינג לימין עבור האייקון
+        border-radius: 12px !important;
+        color: white !important;
+        font-size: 1rem;
+        transition: 0.3s;
+
+        &:focus {
+            border-color: var(--neon-cyan) !important;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2) !important;
+        }
+    }
+
+    .search-icon {
         position: absolute;
         right: 15px;
         top: 50%;
         transform: translateY(-50%);
-        color: #64748b;
+        color: var(--neon-cyan);
+        font-size: 1.1rem;
+        z-index: 2;
     }
+}
 
-    input {
-        background: #0f172a !important;
-        border: 1px solid #334155 !important;
-        padding: 0.8rem 2.8rem 0.8rem 1rem !important;
-        border-radius: 12px;
-        width: 350px;
-        color: white;
+/* 2. המיון - מצטמצם למינימום */
+.sort-select-wrapper {
+    flex: 0 0 auto; // לא גדל, נשאר לפי התוכן
+    min-width: 180px;
+}
 
-        &:focus {
-            border-color: #06b6d4;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+/* 3. כפתורי הפעולה - צמודים לשמאל */
+.action-buttons {
+    display: flex;
+    gap: 0.6rem;
+    flex-shrink: 0; // מונע התכווצות
+
+    ::ng-deep .icon-only-btn {
+        .p-button {
+            width: 45px !important;
+            height: 45px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: var(--text-muted) !important;
+
+            &:hover {
+                border-color: var(--neon-cyan) !important;
+                color: var(--neon-cyan) !important;
+                background: rgba(6, 182, 212, 0.1) !important;
+            }
         }
     }
 }
 
-.actions-section {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
+/* עיצוב רכיבי פריים */
+::ng-deep {
+    .premium-sort-select {
+        .p-select {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px !important;
+            padding: 0 10px !important;
 
-    .divider {
-        width: 1px;
-        height: 30px;
-        background: rgba(255, 255, 255, 0.1);
+            .p-select-label {
+                padding: 0.8rem 0.5rem !important;
+                flex: 1;
+            }
+        }
+    }
+
+    .p-select-overlay {
+        background: #1e293b !important;
+        border: 1px solid var(--neon-cyan) !important;
+
+        .p-select-option {
+            color: white !important;
+
+            &:hover {
+                background: rgba(6, 182, 212, 0.1) !important;
+            }
+
+            &.p-highlight {
+                background: var(--neon-cyan) !important;
+                color: #0f172a !important;
+            }
+        }
     }
 }
 
-/* עיצוב הכרטיסים - הלב של הקטלוג */
+/* גריד וכרטיסים */
 .gift-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -89,70 +156,40 @@
 }
 
 .gift-premium-card {
-    background: #1e293b;
+    background: var(--surface-card);
     border-radius: 24px;
-    overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: 0.4s;
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     &:hover {
-        transform: translateY(-12px);
-        border-color: rgba(6, 182, 212, 0.3);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-
-        .image-section img {
-            transform: scale(1.1);
-        }
+        transform: translateY(-10px);
+        border-color: var(--neon-cyan);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
     }
 
     .image-section {
         position: relative;
-        height: 240px;
-        overflow: hidden;
+        height: 220px;
 
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
         }
 
         .price-overlay {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.85);
             padding: 8px 15px;
             border-radius: 12px;
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            color: #06b6d4;
-
-            .currency {
-                font-size: 0.9rem;
-                margin-left: 2px;
-            }
-
-            .amount {
-                font-size: 1.4rem;
-                font-weight: 800;
-            }
-        }
-
-        .category-tag {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            background: rgba(6, 182, 212, 0.9);
-            color: #0f172a;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
+            color: var(--neon-cyan);
+            font-weight: 800;
         }
     }
 
@@ -164,56 +201,75 @@
 
         .gift-name {
             font-size: 1.4rem;
-            margin: 0 0 0.5rem 0;
             color: white;
-            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
         .donor-line {
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
 
             span {
-                color: #94a3b8;
                 font-weight: 600;
             }
         }
+    }
+}
 
-        .card-footer {
-            margin-top: auto;
+.cart-btn {
+    width: 100%;
+    min-height: 50px;
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    border: none;
+    border-radius: 12px;
+    color: #0f172a;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
 
-            .cart-btn {
-                width: 100%;
-                background: linear-gradient(135deg, #06b6d4, #0891b2);
-                color: #0f172a;
-                border: none;
-                padding: 1rem;
-                border-radius: 14px;
-                font-weight: 800;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                cursor: pointer;
-                transition: 0.3s;
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 5rem;
 
-                &:hover {
-                    background: linear-gradient(135deg, #22d3ee, #06b6d4);
-                    box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
-                }
-                
-                &.disabled-btn {
-                    background: linear-gradient(135deg, #6b7280, #4b5563);
-                    cursor: not-allowed;
-                    opacity: 0.6;
-                    
-                    &:hover {
-                        background: linear-gradient(135deg, #6b7280, #4b5563);
-                        box-shadow: none;
-                    }
-                }
-            }
+
+    i {
+        font-size: 4rem;
+        color: var(--neon-cyan);
+        opacity: 0.5;
+    }
+
+    p {
+        font-size: 1.5rem;
+        color: var(--text-muted);
+        margin-top: 1rem;
+    }
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gift-card-wrapper {
+    animation: fadeInUp 0.6s ease backwards;
+
+    // דירוג הופעה לכרטיסים
+    @for $i from 1 through 20 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.1}s;
         }
     }
 }
@@ -349,4 +405,5 @@ img.drawn-image {
         color: #9ca3af !important;
         opacity: 0.8;
     }
+}
 }

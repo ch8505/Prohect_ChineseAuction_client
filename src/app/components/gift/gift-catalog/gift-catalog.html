@@ -4,33 +4,37 @@
         <p class="catalog-subtitle">הזדמנות נדירה לזכות בפרסים שחלמת עליהם</p>
     </header>
 
-    <div class="controls-container">
-        <div class="controls-glass-card">
-            <div class="search-section">
-                <div class="input-glow-wrapper">
-                    <i class="pi pi-search"></i>
-                    <input type="text" pInputText placeholder="חפשי את הפרס הבא שלך..." [ngModel]="searchTerm()"
-                        (ngModelChange)="searchTerm.set($event)" />
-                </div>
+    <div class="controls-wrapper">
+        <div class="search-bar-container">
+            <div class="search-input-group">
+                <input type="text" pInputText placeholder="חיפוש לפי שם פרס או קטגוריה..." [ngModel]="searchTerm()"
+                    (ngModelChange)="searchTerm.set($event)" />
+                <i class="pi pi-search search-icon"></i>
             </div>
 
-            <div class="actions-section">
+            <div class="sort-select-wrapper">
                 <p-select [options]="sortOptions" (onChange)="onSortPrice($event)" optionLabel="label"
-                    optionValue="value" placeholder="מיון לפי מחיר" class="premium-select">
+                    optionValue="value" placeholder="מיון לפי מחיר" class="premium-sort-select">
                 </p-select>
+            </div>
 
-                <p-button label="כל הקטגוריות" (onClick)="onSortCategory()" icon="pi pi-filter" class="filter-btn">
-                </p-button>
-
-                <div class="divider"></div>
-
-                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" [text]="true" class="reset-icon-btn"
+            <div class="action-buttons">
+                <p-button icon="pi pi-refresh" (onClick)="resetFilters()" [text]="true" class="icon-only-btn"
                     pTooltip="איפוס הגדרות" tooltipPosition="bottom">
+                </p-button>
+                <p-button icon="pi pi-filter" (onClick)="onSortCategory()" [text]="true" class="icon-only-btn"
+                    pTooltip="סינון קטגוריות" tooltipPosition="bottom">
                 </p-button>
             </div>
         </div>
     </div>
-
+    @if (isLoading()) {
+    <div class="gift-grid">
+        @for (i of [1,2,3,4,5,6,7,8]; track i) {
+        <div class="skeleton-card"></div>
+        }
+    </div>
+    }
     <div class="gift-grid">
         @for (gift of filteredGifts(); track gift.id) {
         <div class="gift-card-wrapper" [ngClass]="{ 'drawn-card': gift.isDrawn }">
@@ -54,24 +58,21 @@
                         <span class="currency">₪</span>
                         <span class="amount">{{gift.ticketPrice}}</span>
                     </div>
-                    <div class="category-tag">{{gift.categoryName}}</div>
                 </div>
-
                 <div class="content-section">
-                    <h3 class="gift-name" [ngClass]="{ 'drawn-text': gift.isDrawn }">{{gift.name}}</h3>
-                    <p class="donor-line" [ngClass]="{ 'drawn-text': gift.isDrawn }">בהוקרה מאת: <span>{{gift.donorName}}</span></p>
+                    <h3 class="gift-name">{{gift.name}}</h3>
+                    <p class="donor-line">בהוקרה מאת: <span>{{gift.donorName}}</span></p>
 
                     <div class="card-footer">
-                        <button class="cart-btn" (click)="addToCart(gift)" [disabled]="gift.isDrawn"
-                            [ngClass]="{ 'disabled-btn': gift.isDrawn }">
-                            <i class="pi" [ngClass]="gift.isDrawn ? 'pi-lock' : 'pi-shopping-cart'"></i>
-                            <span>{{ gift.isDrawn ? 'מתנה הוגרלה' : 'הבטיחי את מקומך' }}</span>
+                        <button class="cart-btn" (click)="addToCart(gift)">
+                            <i class="pi pi-shopping-cart"></i>
+                            <span>הבטיחי את מקומך</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        } @empty {
+        }@empty {
         <div class="empty-state">
             <i class="pi pi-search-minus"></i>
             <p>לא מצאנו בדיוק את מה שת... נסי חיפוש אחר?</p>

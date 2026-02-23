@@ -1,58 +1,38 @@
-<div class="auth-container" dir="rtl">
+<div class="auth-container">
     <div class="auth-header">
-        <i class="pi pi-lock-open tech-icon"></i>
+        <i class="pi pi-user-plus tech-icon"></i>
         <h2>כניסה למערכת</h2>
         <p>התחברי כדי להמשיך ברכישה</p>
     </div>
 
     <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="auth-form">
 
-        <!-- אימייל -->
         <div class="input-field-group">
-            <label>אימייל</label>
-
+            <label>דואר אלקטרוני</label>
             <p-iconfield iconPosition="right">
-                <input pInputText
-                       type="email"
-                       name="email"
-                       [(ngModel)]="credentials.email"
-                       placeholder="דוא״ל שלך"
-                       required
-                       email />
-
+                <input pInputText type="email" name="email" [(ngModel)]="credentials.email" placeholder="הזינו מייל..."
+                    required />
                 <p-inputicon class="pi pi-envelope"></p-inputicon>
             </p-iconfield>
         </div>
 
-        <!-- סיסמה (בלי IconField!) -->
         <div class="input-field-group">
             <label>סיסמה</label>
-
-            <p-password name="password"
-                        [(ngModel)]="credentials.password"
-                        [toggleMask]="true"
-                        [feedback]="false"
-                        placeholder="סיסמה"
-                        required
-                        styleClass="w-full">
-            </p-password>
+            <p-iconfield iconPosition="right">
+                <p-password name="password" [(ngModel)]="credentials.password" [toggleMask]="true" [feedback]="false"
+                    placeholder="הזינו סיסמה..." required styleClass="w-full">
+                </p-password>
+                <p-inputicon class="pi pi-lock"></p-inputicon>
+            </p-iconfield>
         </div>
 
-        <p-button label="התחברות"
-                  icon="pi pi-sign-in"
-                  type="submit"
-                  [loading]="isLoading()"
-                  [disabled]="!loginForm.valid"
-                  styleClass="submit-button">
+        <p-button label="התחברות" icon="pi pi-sign-in" type="submit" [loading]="isLoading()"
+            [disabled]="!loginForm.valid" class="submit-button">
         </p-button>
 
-        <div class="auth-footer">
-            <span>עדיין לא רשומה?</span>
-            <p-button label="ליצירת חשבון חדש"
-                      variant="text"
-                      (onClick)="switchToRegister.emit()">
-            </p-button>
+        <div class="auth-footer" style="text-align: center; margin-top: 1rem;">
+            <span style="color: var(--text-muted);">עדיין לא רשום?</span>
+            <p-button label="ליצירת חשבון חדש" [text]="true" (onClick)="switchToRegister.emit()"></p-button>
         </div>
-
     </form>
 </div>
