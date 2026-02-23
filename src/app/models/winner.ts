@@ -9,14 +9,16 @@ export interface Winner {
     user: User;
 }
 
-//פרטי המשתמש הזוכה למתנה ספיצפית- האוביקט שחוזר 
+//פרטי המשתמש הזוכה למתנה ספיצפית - התאימה עם WinnerResultDto
+
+
 export interface WinnerByGift {
     giftId: number;
     giftName: string;
-    winnerUserId: Gift;
-    winnerName:string;
-    winnerEmail: string;
-    totalTickets: User;
-    drawDate:Date;
+    winnerUserId: number;        // ✅ אם לא int
+    winnerName: string;          // ✅ string
+    winnerEmail: string;         // ✅ string
+    totalTickets: number;        // ✅ number בלבד
+    drawDate: Date;              // ✅ Date
 }
 

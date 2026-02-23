@@ -2,7 +2,7 @@
 
 
 
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Category, Gift, GiftUpsert } from '../models/gift';
@@ -15,6 +15,15 @@ export class GiftService {
   private readonly BASE_URL = 'https://localhost:7006/api/Gift';
 
   private http = inject(HttpClient);
+
+  // Shared state for gifts across components
+  private giftsSignal = signal<Gift[]>([]);
+  public gifts$ = this.giftsSignal.asReadonly();
+
+  // set gifts to shared signal
+  setGiftsInSignal(gifts: Gift[]): void {
+    this.giftsSignal.set(gifts);
+  }
 
   /** ===================== CRUD ===================== */
 
@@ -37,6 +46,29 @@ export class GiftService {
     return this.http.get<Gift[]>(`${this.BASE_URL}/sort-by-category`);
   }
 
+  // עדכון מתנה מסוימת עם פרטי הגרלה
+  updateGiftWithLottery(giftId: number, winnerName: string): void {
+    const gifts = this.giftsSignal();
+    const updatedGifts = gifts.map(gift =>
+      gift.id === giftId
+        ? { ...gift, isDrawn: true, winnerName }
+        : gift
+    );
+    this.giftsSignal.set(updatedGifts);
+  }
+
+  // טעינת כל המתנות ו-caching ל-signal
+  loadAllGifts(endpoint: Observable<Gift[]>): Observable<Gift[]> {
+    return new Observable(observer => {
+      endpoint.subscribe({
+        next: (data) => {
+          this.giftsSignal.set(data);
+          observer.next(data);
+        },
+        error: (err) => observer.error(err)
+      });
+    });
+  }
 
   /** ===================== עזרים ===================== */
   // פונקציית עזר כדי לא לשכפל קוד ביצירה ובעדכון

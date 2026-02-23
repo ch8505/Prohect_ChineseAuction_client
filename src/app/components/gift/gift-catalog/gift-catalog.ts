@@ -11,22 +11,22 @@ import { SelectModule } from 'primeng/select';
 import { SelectChangeEvent } from 'primeng/select';
 import { CartService } from '../../../services/cart/cart-service';
 import { ToastModule } from 'primeng/toast';
+
 @Component({
   selector: 'app-gift-catalog',
   imports: [CommonModule, CardModule, ButtonModule, TagModule, FormsModule, InputTextModule, SelectModule,ToastModule],
   templateUrl: './gift-catalog.html',
   styleUrl: './gift-catalog.scss',
 })
-export class GiftCatalog {
+export class GiftCatalog implements OnInit {
 
   readonly IMAGE_BASE_URL = 'https://localhost:7006/'; 
   
   private giftService = inject(GiftService);
   private cartService = inject(CartService);
 
-
-
-  gifts = signal<Gift[]>([]);
+  // תיחבור ישיר ל-signal בservice - כל עדכון בservice יתעדכן כאן
+  gifts = this.giftService.gifts$;
   searchTerm = signal<string>('');
 
   sortOptions = [
@@ -44,9 +44,8 @@ export class GiftCatalog {
   });
 
   ngOnInit() {
-    this.giftService.getAllForCatalog().subscribe({
+    this.giftService.loadAllGifts(this.giftService.getAllForCatalog()).subscribe({
       next: (data) => {
-        this.gifts.set(data);
         console.log('מתנות נטענו:', data); // לבדיקה שהנתונים הגיעו
       },
       error: (err) => console.error('לא הצליח לטעון מתנות', err)
@@ -55,27 +54,21 @@ export class GiftCatalog {
   // שימי לב לטיפוס של event: DropdownChangeEvent
   onSortPrice(event: SelectChangeEvent) {
     const asc = event.value;
-    this.giftService.getAllSortedByPriceAsc(asc).subscribe({
-      next: (data) => this.gifts.set(data),
+    this.giftService.loadAllGifts(this.giftService.getAllSortedByPriceAsc(asc)).subscribe({
       error: (err) => console.error('Error:', err)
     });
   }
 
   // פונקציית מיון לפי קטגוריה (קוראת לשרת)
   onSortCategory() {
-    this.giftService.sortByCategory().subscribe({
-      next: (data) => {
-        this.gifts.set(data);
-        console.log('מתנות ממוינות לפי קטגוריה:', data);
-      },
+    this.giftService.loadAllGifts(this.giftService.sortByCategory()).subscribe({
       error: (err) => console.error('שגיאה במיון קטגוריה:', err)
     });
   }
 
   resetFilters() {
     this.searchTerm.set('');
-    this.giftService.getAllForCatalog().subscribe({
-      next: (data) => this.gifts.set(data),
+    this.giftService.loadAllGifts(this.giftService.getAllForCatalog()).subscribe({
       error: (err) => console.error('Error:', err)
     });
   }
@@ -92,7 +85,7 @@ export class GiftCatalog {
       }
     });
   }
-isUserLoggedIn(): boolean {
+  isUserLoggedIn(): boolean {
  
   return !!localStorage.getItem('token'); 
 }

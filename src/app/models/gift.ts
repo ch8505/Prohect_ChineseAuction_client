@@ -1,56 +1,4 @@
-// import { Category } from './category';
-// import { Donor } from './donor';
-// import { OrderItem } from './order-item';
-// import { Winner } from './winner';
 
-// // gift-base.model.ts
-// export interface GiftBase {
-//   name: string;
-//   ticketPrice: number;
-// }
-
-// // gift.model.ts
-// export interface Gift extends GiftBase {
-//   id: number;
-// }
-
-// // gift-create-update.model.ts
-// export interface GiftCreateUpdate extends GiftBase {
-//   description?: string;
-//   imageUrl?: string;
-//   categoryId?: number;
-//   // donorId?: number;
-// }
-
-// // gift-detail.model.ts
-// export interface GiftDetail extends Gift {
-//   description?: string;
-//   imageUrl?: string;
-
-//   categoryId?: number;
-//   categoryName?: string;
-
-//   donorId?: number;
-//   donorName?: string;
-//   donorEmail?: string;
-// }
-
-// export interface GiftAdmin extends GiftDetail {
-//   purchasersCount: number;
-// }
-
-// export interface Buyer {
-//   userName: string;
-//   email: string;
-//   quantity: number;
-// }
-
-// export interface GiftPurchases {
-//   giftId: number;
-//   giftName: string;
-//   totalTicketsSold: number;
-//   buyers: Buyer[];
-// }
 
 
 /* ========= Gift – תצוגה ========= */
@@ -66,6 +14,10 @@ export interface Gift {
   categoryName: string;
 
   donorName?: string;
+  
+  // פרטי הגרלה
+  isDrawn?: boolean;
+  winnerName?: string;
 }
 
 /* ========= GiftUpsert – יצירה / עדכון ========= */

@@ -4,6 +4,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category, Gift, GiftUpsert } from '../../../models/gift';
+import { WinnerByGift } from '../../../models/winner';
 import { GiftService } from '../../../services/gift-service';
 import { LotterySerice } from '../../../services/lottery-service';
 import { GiftFormComponent } from '../../gift/gift-form/gift-form';
@@ -38,6 +39,8 @@ export class GiftGallery implements OnInit {
   listOfGifts: Gift[] = [];
   selectedGift: Gift | null = null;
   displayDialog: boolean = false;
+  displayWinnerDialog = signal<boolean>(false);
+  winner = signal<WinnerByGift | null>(null);
 
   //get all categories
   loadCategories() {
@@ -56,6 +59,8 @@ export class GiftGallery implements OnInit {
     this.giftService.getAll().subscribe({
       next: data => {
         this.listOfGifts = data;
+        // גם עדכן את ה-shared signal בservice כדי שgift-catalog תעדכן בעת הגרלה
+        this.giftService.setGiftsInSignal(data);
         console.log('מתנות נטענו:', data); // לבדיקה שהנתונים הגיעו
       },
       error: err => console.error('Failed to load gifts', err)
@@ -112,11 +117,42 @@ export class GiftGallery implements OnInit {
 
   // פונקציה לדוגמה להפעלת הגרלה על מתנה מסוימת
   lottery(giftId: number) {
-    console.log('מבצע הגרלה עבור מתנה:', giftId);
-    // כאן תבוא הלוגיקה של ההגרלה בהמשך
+    console.log("פונקציית הגרלה מניהול מתנות");
+    if (confirm('האם אתה בטוח שברצונך להגריל מתנה זו?')) {
+      this.lotteryService.drawByGiftId(giftId).subscribe({
+        next: (winnerData) => {
+          console.log('הגרלה בוצעה בהצלחה:', winnerData);
+          
+          // הצג את הזוכה בדיאלוג
+          this.winner.set(winnerData);
+          this.displayWinnerDialog.set(true);
+          
+          // עדכן את המתנה בshared service - זה יעדכן גם את הקטלוג
+          this.giftService.updateGiftWithLottery(giftId, winnerData.winnerName);
+          
+          // עדכן את המתנה ברשימה המקומית - סמן אותה כהוגרל עם שם הזוכה
+          const giftIndex = this.listOfGifts.findIndex(g => g.id === giftId);
+          if (giftIndex !== -1) {
+            this.listOfGifts[giftIndex] = {
+              ...this.listOfGifts[giftIndex],
+              isDrawn: true,
+              winnerName: winnerData.winnerName
+            };
+            // עדכן את ה-array כדי שAngular יזהה את השינוי
+            this.listOfGifts = [...this.listOfGifts];
+          }
+        },
+        error: (error) => {
+          console.error('שגיאה בהגרלה:', error);
+          alert('שגיאה בביצוע ההגרלה');
+        }
+      });
+    }
   }
+
+  closeWinnerDialog() {
+    this.displayWinnerDialog.set(false);
+    this.winner.set(null);
+  }
+
 }
-
-
-
-

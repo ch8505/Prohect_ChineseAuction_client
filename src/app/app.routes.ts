@@ -10,10 +10,12 @@ import { ManagerUsers } from './components/manager/manager-users/manager-users';
 import { ManagementLottery } from './components/manager/management-lottery/management-lottery';
 import { AdminDashboard } from './components/manager/admin-dashboard/admin-dashboard';
 import { adminGuard } from './services/auth.guard';
+import { About } from './pages/about/about';
  // <--- תוודאי שהייבוא נכון
 export const routes: Routes = [
     { path: '', component: Home }, 
     { path: 'catalog', component: GiftCatalog },
+    { path: 'about', component: About },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
      { path: 'checkout', component: Checkout },
@@ -23,9 +25,9 @@ export const routes: Routes = [
         canActivate: [adminGuard],
         children: [
             { path: '', component: GiftGallery }, // ברירת מחדל לניהול מתנות
-            { path: 'gifts', component: GiftGallery }, // ניהול מתנות
-            { path: 'donors', component: ManagementDonor },   // ניהול תורמים
-            { path: 'raffle', component: AdminDashboard },   // זמני: הפניה להום עד שייבנה
+            { path: 'gifts', component:  AdminDashboard }, // ניהול מתנות
+            { path: 'donors', component:  GiftGallery  },   // ניהול תורמים
+            { path: 'raffle', component: ManagementDonor  },   // זמני: הפניה להום עד שייבנה
             { path: 'reports', component: ManagerUsers } ,
          // זמני: הפניה להום עד שייבנה
         ]
